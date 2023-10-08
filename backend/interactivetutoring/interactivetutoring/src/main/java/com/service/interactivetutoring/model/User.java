@@ -2,6 +2,9 @@ package com.service.interactivetutoring.model;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.io.Serializable;
 
 @Entity
@@ -10,8 +13,16 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
+    @NotNull
+    @Size(min=5, max=45)
+    @Column(unique = true)
     private String username;
+    @NotNull
+    @Size(min=5, max=45)
+    @Column(unique = true)
     private String email;
+    @NotNull
+    @Size(min=5, max=45)
     private String password;
 
     public User() {
