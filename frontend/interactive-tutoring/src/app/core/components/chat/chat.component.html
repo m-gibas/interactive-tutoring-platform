@@ -1,0 +1,9 @@
+<div>
+  <h2>Messages:</h2>
+  <ng-container *ngFor="let message of messages$ | async">
+    <div>
+      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
+      {{ message.secondUserUsername }} message: {{ message.message }}
+    </div>
+  </ng-container>
+</div>
