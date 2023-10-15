@@ -36,6 +36,15 @@ export class LoginComponent {
   }
 
   login() {
+    this.userService.loginUser(this.form.getRawValue()).subscribe({
+      next: (res: User) => {
+        console.log(res);
+        this.form.reset();
+      },
+      error: (err: HttpErrorResponse) => {
+        alert(err.message);
+      }
+    });
     //   account
     //     .createEmailSession(
     //       this.form.controls.email.value,

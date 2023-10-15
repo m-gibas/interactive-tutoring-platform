@@ -1,9 +1,20 @@
 <div>
-  <h2>Messages:</h2>
-  <ng-container *ngFor="let message of messages$ | async">
-    <div>
-      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-      {{ message.secondUserUsername }} message: {{ message.message }}
-    </div>
+  <h3>Choose who to chat:</h3>
+
+  <div *ngFor="let user of users$ | async">
+    <input
+      [(ngModel)]="selectedUsername"
+      type="radio"
+      [value]="user.username"
+    />Username: {{ user.username }}
+  </div>
+
+  <h3>Messages:</h3>
+  <ng-container *ngIf="selectedUsername">
+    <!-- przesyłać tutaj w firstUsername zamiast sztywno nazwy to sczytywać z backu odpowiednią nową metodą z seesion.getAttribute -->
+    <app-messages-container
+      [firstUsername]="'maks1'"
+      [secondUsername]="selectedUsername"
+    ></app-messages-container>
   </ng-container>
 </div>

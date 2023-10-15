@@ -20,6 +20,10 @@ public class MessageService {
         return messageRepository.findAllByFirstUserUsername(username);
     }
 
+    public List<Message> findAllMessagesByBothUsernames(String firstUsername, String secondUsername) {
+        return messageRepository.findAllByFirstUserUsernameAndSecondUserUsername(firstUsername, secondUsername);
+    }
+
     public Message addMessage(Message message) {
         return messageRepository.save(message);
     }

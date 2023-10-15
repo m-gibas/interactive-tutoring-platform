@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findAllByFirstUserUsername(String firstUserUsername);
+
+    List<Message> findAllByFirstUserUsernameAndSecondUserUsername(String firstUserUsername, String secondUserUsername);
+
 }

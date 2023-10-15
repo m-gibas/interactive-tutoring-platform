@@ -1,5 +1,6 @@
 package com.service.interactivetutoring;
 
+import com.service.interactivetutoring.model.LoginUser;
 import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -76,15 +77,17 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    nie wiem czy przy username w parametrach powinno być @Valid, do sprawdzenia
+//    raczej to dać jako RequestBody?
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestParam String username, @RequestParam String password, HttpSession session) {
-        User user = userService.findUserByUsername(username);
-        if(user != null && encoder.matches(password, user.getPassword())) {
+//    public ResponseEntity<?> loginUser(@RequestParam String username, @RequestParam String password, HttpSession session) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginUser loginUser, HttpSession session) {
+        User user = userService.findUserByUsername(loginUser.getUsername());
+        if(user != null && encoder.matches(loginUser.getPassword(), user.getPassword())) {
 //            pomyśleć, czy może ustawiać tu użytkownika do sesji i np po 30 minutach wylogowuje?
-            session.setAttribute("username", username);
+            session.setAttribute("username", loginUser.getUsername());
 //            nie wiem czy to jest poprawnie, ale coś takiego znalazłem?
-            session.getServletContext().getSessionCookieConfig().setMaxAge(30 * 60);
+//            Property [max age] cannot be added to SessionCookieConfig for context [] as the context has been initialised
+//            session.getServletContext().getSessionCookieConfig().setMaxAge(30 * 60);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else {

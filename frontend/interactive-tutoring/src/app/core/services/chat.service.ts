@@ -26,6 +26,18 @@ export class ChatService {
     // );
   }
 
+  public getAllMessagesForFirstUser(
+    firstUsername: string,
+    secondUsername: string
+  ): Observable<Message[]> {
+    return this.http.get<Message[]>(
+      `${this.apiUrl}/message/all-for-first-user`,
+      {
+        params: { firstUsername, secondUsername }
+      }
+    );
+  }
+
   // sendMessage
   public addMessage(message: Message): Observable<Message> {
     return this.http.post<Message>(`${this.apiUrl}/message/add`, message);

@@ -25,6 +25,12 @@ public class MessageController {
         return new ResponseEntity<>(allMessages, HttpStatus.OK);
     }
 
+    @GetMapping("/all-for-first-user")
+    public ResponseEntity<List<Message>> findAllMessagesForUser(@RequestParam String firstUsername, @RequestParam String secondUsername) {
+        List<Message> allMessages = messageService.findAllMessagesByBothUsernames(firstUsername, secondUsername);
+        return new ResponseEntity<>(allMessages, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Message> addMessage(@RequestBody Message message) {
         Message addedMessage = messageService.addMessage(message);

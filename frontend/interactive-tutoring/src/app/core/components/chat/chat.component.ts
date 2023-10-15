@@ -1,18 +1,20 @@
-import { Component, inject } from '@angular/core';
-import { ChatService } from '../../services/chat.service';
+import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Message } from '../../models/message.model';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html'
 })
-export class ChatComponent {
-  private chatService = inject(ChatService);
+export class ChatComponent implements OnInit {
+  private userService = inject(UserService);
 
-  messages$!: Observable<Message[]>;
+  selectedUsername = '';
+
+  users$!: Observable<User[]>;
 
   ngOnInit(): void {
-    this.messages$ = this.chatService.getMessages('ddsada');
+    this.users$ = this.userService.getUsers();
   }
 }
