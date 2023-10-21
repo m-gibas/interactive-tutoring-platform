@@ -33,6 +33,7 @@ public class MessageController {
 
     @PostMapping("/add")
     public ResponseEntity<Message> addMessage(@RequestBody Message message) {
+        System.out.println("add message");
         Message addedMessage = messageService.addMessage(message);
         return new ResponseEntity<>(addedMessage, HttpStatus.OK);
     }

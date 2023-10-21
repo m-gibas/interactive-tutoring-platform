@@ -1,6 +1,35 @@
-<ng-container *ngFor="let message of messages$ | async">
+<h2>messages$</h2>
+<ng-container *ngIf="messages$ | async as messages">
+  <ng-container *ngFor="let message of messages">
+    <div>
+      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
+      {{ message.secondUserUsername }} message: {{ message.message }}
+    </div>
+  </ng-container>
+</ng-container>
+
+<h2>webSocketService.messages</h2>
+<ng-container *ngFor="let message of webSocketService.messages">
   <div>
     firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
     {{ message.secondUserUsername }} message: {{ message.message }}
   </div>
 </ng-container>
+
+<h2>liveData$</h2>
+<ng-container *ngIf="liveData$ | async as messages">
+  <ng-container *ngFor="let message of messages">
+    <div>
+      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
+      {{ message.secondUserUsername }} message: {{ message.message }}
+    </div>
+  </ng-container>
+</ng-container>
+
+<form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
+  <textarea [formControl]="newMessageForm.controls.message"></textarea>
+  <br />
+  <button type="submit" [disabled]="newMessageForm.invalid">
+    Send message
+  </button>
+</form>

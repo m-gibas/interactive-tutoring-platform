@@ -1,5 +1,7 @@
 package com.service.interactivetutoring;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.interactivetutoring.model.LoginUser;
 import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.UserService;
@@ -17,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,7 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
+//    pytanie czy to i initBinder potrzebne?
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public void initBinder(WebDataBinder webDataBinder) {
@@ -84,7 +88,10 @@ public class UserController {
         User user = userService.findUserByUsername(loginUser.getUsername());
         if(user != null && encoder.matches(loginUser.getPassword(), user.getPassword())) {
 //            pomyśleć, czy może ustawiać tu użytkownika do sesji i np po 30 minutach wylogowuje?
+
+            System.out.println(loginUser.getUsername());
             session.setAttribute("username", loginUser.getUsername());
+            System.out.println("sesja" + session.getAttribute("username"));
 //            nie wiem czy to jest poprawnie, ale coś takiego znalazłem?
 //            Property [max age] cannot be added to SessionCookieConfig for context [] as the context has been initialised
 //            session.getServletContext().getSessionCookieConfig().setMaxAge(30 * 60);
@@ -102,5 +109,19 @@ public class UserController {
         }
         session.invalidate();
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/get-current-username")
+    @ResponseBody
+    public ResponseEntity<String> getCurrentUsername(HttpSession session) throws JsonProcessingException {
+        String username = (String) session.getAttribute("username");
+        Map<String, Object> usernameObject = new HashMap<>();
+        usernameObject.put("username", username);
+        ObjectMapper mapper = new ObjectMapper();
+
+        if (username == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(mapper.writeValueAsString(usernameObject), HttpStatus.OK);
     }
 }

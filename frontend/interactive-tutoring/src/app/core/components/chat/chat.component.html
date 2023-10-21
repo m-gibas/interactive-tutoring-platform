@@ -1,6 +1,7 @@
 <div>
   <h3>Choose who to chat:</h3>
 
+  <!-- potrzebuje jeszcze filtrowania, że nie pokazuje zalogowanego użytkownika -->
   <div *ngFor="let user of users$ | async">
     <input
       [(ngModel)]="selectedUsername"
@@ -10,11 +11,13 @@
   </div>
 
   <h3>Messages:</h3>
+  <!-- <ng-container *ngIf="currentUsername$ | async as currentUsername"> -->
   <ng-container *ngIf="selectedUsername">
     <!-- przesyłać tutaj w firstUsername zamiast sztywno nazwy to sczytywać z backu odpowiednią nową metodą z seesion.getAttribute -->
+    <!-- [firstUsername]="(currentUsername$ | async) || ''" -->
     <app-messages-container
-      [firstUsername]="'maks1'"
       [secondUsername]="selectedUsername"
     ></app-messages-container>
   </ng-container>
+  <!-- </ng-container> -->
 </div>

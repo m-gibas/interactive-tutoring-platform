@@ -40,6 +40,8 @@ export class ChatService {
 
   // sendMessage
   public addMessage(message: Message): Observable<Message> {
+    console.log('service', message);
+
     return this.http.post<Message>(`${this.apiUrl}/message/add`, message);
   }
 }

@@ -33,6 +33,8 @@ export class UserService {
   // }
 
   public loginUser(user: User): Observable<any> {
+    // trochę to przerobić i typ zwracany poprawić
+    // albo inne metody przerobić na ten styl
     const url = `${this.apiUrl}/user/login`;
     const data = {
       username: user.username,
@@ -40,6 +42,12 @@ export class UserService {
     };
 
     return this.http.post(url, data, {
+      withCredentials: true
+    });
+  }
+
+  public getCurrentUsername(): Observable<any> {
+    return this.http.get<string>(`${this.apiUrl}/user/get-current-username`, {
       withCredentials: true
     });
   }

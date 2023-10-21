@@ -9,11 +9,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsersComponent } from './core/components/users/users.component';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { MessagesContainerComponent } from './core/components/chat/messages-container/messages-container.component';
+import { WebSocketService2 } from './core/services/web-socket-rxjs.service';
+import { WebSocketService } from './core/services/web-socket.service';
+import { StompService } from './core/services/stomp.service';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, UsersComponent, ChatComponent, MessagesContainerComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
-  providers: [],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    UsersComponent,
+    ChatComponent,
+    MessagesContainerComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  providers: [WebSocketService, WebSocketService2, StompService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
