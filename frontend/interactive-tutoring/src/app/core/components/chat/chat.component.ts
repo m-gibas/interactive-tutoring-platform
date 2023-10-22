@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
-import { WebSocketService } from '../../services/web-socket.service';
+// import { WebSocketService } from '../../services/web-socket.service';
 import { WebSocketService2 } from '../../services/web-socket-rxjs.service';
 
 @Component({

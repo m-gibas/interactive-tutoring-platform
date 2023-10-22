@@ -25,8 +25,9 @@ import {
 import { Message } from 'src/app/core/models/message.model';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { WebSocketIoService } from 'src/app/core/services/web-socket-io.service';
 import { WebSocketService2 } from 'src/app/core/services/web-socket-rxjs.service';
-import { WebSocketService } from 'src/app/core/services/web-socket.service';
+// import { WebSocketService } from 'src/app/core/services/web-socket.service';
 
 @Component({
   selector: 'app-messages-container',
@@ -40,11 +41,15 @@ export class MessagesContainerComponent
 
   private chatService = inject(ChatService);
   private userService = inject(UserService);
-  protected webSocketService = inject(WebSocketService);
-  protected webSocketService2 = inject(WebSocketService2);
+  // protected webSocketService = inject(WebSocketService);
+  // protected webSocketService2 = inject(WebSocketService2);
+  protected webSocketServiceIo = inject(WebSocketIoService);
   private fb = inject(FormBuilder);
 
   messages$!: Observable<Message[]>;
+  room: string = '';
+  message: string = '';
+  messages: string[] = [];
   liveData$!: Observable<Message[]>;
   refreshToken$ = new BehaviorSubject(undefined);
 
@@ -55,7 +60,8 @@ export class MessagesContainerComponent
   currentUsername$!: Subscription;
 
   ngOnInit(): void {
-    this.webSocketService.connect();
+    // this.webSocketServiceIo.connect();
+    // this.webSocketService.connect();
 
     // this.liveData$ = this.webSocketService2.messages$.pipe(
     //   map((rows: any) => rows.data),
@@ -74,6 +80,17 @@ export class MessagesContainerComponent
     //   console.log('2', res);
     // });
 
+    // this.webSocketServiceIo.onReceivedMessage().subscribe((message: any) => {
+    //   console.log('message', message);
+
+    //   this.messages.push(message);
+    // });
+    this.webSocketServiceIo.onNewMessage().subscribe((message: any) => {
+      console.log('message', message);
+
+      this.messages.push(message);
+    });
+
     this.currentUsername$ = this.userService
       .getCurrentUsername()
       .subscribe((res) => {
@@ -85,7 +102,8 @@ export class MessagesContainerComponent
 
   ngOnDestroy(): void {
     this.currentUsername$.unsubscribe();
-    this.webSocketService.disconnect();
+    // this.webSocketService.disconnect();
+    this.webSocketServiceIo.disconnect();
   }
 
   ngOnChanges(): void {
@@ -125,7 +143,9 @@ export class MessagesContainerComponent
     };
 
     // this.webSocketService2.sendMessage(newMessage);
-    this.webSocketService.sendMessage('/app/send-message', newMessage.message);
+    // this.webSocketService.sendMessage('/app/send-message', newMessage.message);
+
+    // this.webSocketServiceIo.sendMessage(newMessage);
 
     this.newMessageForm.reset();
 
@@ -137,5 +157,20 @@ export class MessagesContainerComponent
         alert(err.message);
       }
     });
+  }
+
+  connect() {
+    this.webSocketServiceIo.connect(this.room);
+  }
+
+  sendMessageSocket() {
+    // this.webSocketServiceIo.sendMessage(this.room, this.message);
+    console.log('messages', this.messages);
+
+    this.message = '';
+  }
+
+  disconnect() {
+    this.webSocketServiceIo.disconnect();
   }
 }

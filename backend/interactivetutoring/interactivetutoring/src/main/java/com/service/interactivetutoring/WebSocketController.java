@@ -27,6 +27,7 @@ public class WebSocketController {
     public Message onReceivedMessage(@Payload Message message) {
 //        nie wiem czy taki destination? sprawdzić
 //        this.template.convertAndSend("chat", new SimpleDateFormat("Hh:mm:ss").format(new Date()) + "- " + message);
+        System.out.println(message);
     return message;
     }
 

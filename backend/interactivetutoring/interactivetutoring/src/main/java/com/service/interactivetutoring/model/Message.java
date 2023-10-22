@@ -17,6 +17,7 @@ public class Message {
 
     private String secondUserUsername;
     private String message;
+    private String room;
 
     public Message() {
     }
@@ -51,6 +52,14 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     @Override
