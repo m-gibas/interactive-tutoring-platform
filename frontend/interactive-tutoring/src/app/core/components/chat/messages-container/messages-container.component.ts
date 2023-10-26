@@ -25,9 +25,7 @@ import {
 import { Message } from 'src/app/core/models/message.model';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { WebSocketIoService } from 'src/app/core/services/web-socket-io.service';
-import { WebSocketService2 } from 'src/app/core/services/web-socket-rxjs.service';
-// import { WebSocketService } from 'src/app/core/services/web-socket.service';
+import { SocketService } from 'src/app/core/services/web-socket.service';
 
 @Component({
   selector: 'app-messages-container',
@@ -41,15 +39,15 @@ export class MessagesContainerComponent
 
   private chatService = inject(ChatService);
   private userService = inject(UserService);
-  // protected webSocketService = inject(WebSocketService);
-  // protected webSocketService2 = inject(WebSocketService2);
-  protected webSocketServiceIo = inject(WebSocketIoService);
+  private socketService = inject(SocketService);
   private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
 
   messages$!: Observable<Message[]>;
-  room: string = '';
+  private subscriptions$ = new Subscription();
+  room: string = 'a';
   message: string = '';
-  messages: string[] = [];
+  messages: Message[] = [];
   liveData$!: Observable<Message[]>;
   refreshToken$ = new BehaviorSubject(undefined);
 
@@ -85,30 +83,76 @@ export class MessagesContainerComponent
 
     //   this.messages.push(message);
     // });
-    this.webSocketServiceIo.onNewMessage().subscribe((message: any) => {
-      console.log('message', message);
+    // this.webSocketServiceIo.onNewMessage().subscribe((message: any) => {
+    //   console.log('message', message);
 
-      this.messages.push(message);
-    });
+    //   this.messages.push(message);
+    // });
 
-    this.currentUsername$ = this.userService
-      .getCurrentUsername()
-      .subscribe((res) => {
-        this.firstUsername = res.username;
+    this.connect();
 
-        this.messages$ = this.setMessagesObservable();
-      });
+    // this.currentUsername$ = this.userService
+    //   .getCurrentUsername()
+    //   .subscribe((res) => {
+    //     console.log('username compoenent: ', res.username);
+
+    //     this.firstUsername = res.username;
+
+    //     // this.messages$ = this.setMessagesObservable();
+    //     // this.cdr.detectChanges();
+    //     this.setMessagesObservable().subscribe((res) => {
+    //       console.log('tu');
+
+    //       this.messages = [...res];
+    //       console.log(this.messages);
+
+    //       this.cdr.detectChanges();
+    //     });
+    //   });
+
+    this.subscriptions$.add(
+      this.userService
+        .getCurrentUsername()
+        .pipe(
+          mergeMap((res) => {
+            this.firstUsername = res.username;
+            return this.setMessagesObservable();
+          })
+        )
+        .subscribe((res) => {
+          this.messages = [...res];
+
+          this.cdr.detectChanges();
+        })
+    );
   }
 
   ngOnDestroy(): void {
-    this.currentUsername$.unsubscribe();
-    // this.webSocketService.disconnect();
-    this.webSocketServiceIo.disconnect();
+    // this.currentUsername$.unsubscribe();
+    this.subscriptions$.unsubscribe();
   }
 
   ngOnChanges(): void {
-    this.messages$ = this.setMessagesObservable();
+    // this.messages$ = this.setMessagesObservable();
+    this.subscriptions$.add(
+      this.setMessagesObservable().subscribe((res) => {
+        this.messages = [...res];
+        this.cdr.detectChanges();
+      })
+    );
 
+    // this.chatService
+    //   .getAllMessagesBetweenUsers(this.firstUsername, this.secondUsername)
+    //   .subscribe((res) => {
+    //     console.log('tu');
+
+    //     this.messages.push(...res);
+    //     console.log(this.messages);
+
+    //     this.cdr.detectChanges();
+    //   });
+
+    // stare
     // this.liveData$ = this.webSocketService2.messages$.pipe(
     //   map((rows: any) => rows.data),
     //   catchError((error) => {
@@ -124,9 +168,12 @@ export class MessagesContainerComponent
   }
 
   setMessagesObservable(): Observable<Message[]> {
+    // this.chatService
+    //   .getAllMessagesBetweenUsers(this.firstUsername, this.secondUsername)
+    //   .subscribe((res) => console.log('forUsers: ', res));
     return this.refreshToken$.pipe(
       switchMap((_) => {
-        return this.chatService.getAllMessagesForFirstUser(
+        return this.chatService.getAllMessagesBetweenUsers(
           this.firstUsername,
           this.secondUsername
         );
@@ -157,20 +204,40 @@ export class MessagesContainerComponent
         alert(err.message);
       }
     });
+
+    this.socketService.sendMessage({ ...newMessage, room: this.room });
   }
 
+  // stare useless
+  // connect() {
+  //   this.webSocketServiceIo.connect(this.room);
+  // }
+
+  // sendMessageSocket() {
+  //   // this.webSocketServiceIo.sendMessage(this.room, this.message);
+  //   console.log('messages', this.messages);
+
+  //   this.message = '';
+  // }
+
+  // disconnect() {
+  //   this.webSocketServiceIo.disconnect();
+  // }
+
+  // nowy socket działający
   connect() {
-    this.webSocketServiceIo.connect(this.room);
-  }
+    this.socketService.connected(this.room);
 
-  sendMessageSocket() {
-    // this.webSocketServiceIo.sendMessage(this.room, this.message);
-    console.log('messages', this.messages);
+    this.socketService.onNewMessage().subscribe((message: Message) => {
+      // console.log('a tu dziala?', message);
 
-    this.message = '';
+      // this.messages$ = this.setMessagesObservable();
+
+      this.messages.push(message);
+    });
   }
 
   disconnect() {
-    this.webSocketServiceIo.disconnect();
+    this.socketService.disconnect();
   }
 }

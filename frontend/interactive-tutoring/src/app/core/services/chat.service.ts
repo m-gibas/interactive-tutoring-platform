@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Message } from '../models/message.model';
@@ -12,18 +12,10 @@ export class ChatService {
 
   private http = inject(HttpClient);
 
-  private queryParams = new HttpParams();
-
   public getMessages(username: string): Observable<Message[]> {
-    // this.queryParams = this.queryParams.append('username', username);
-
     return this.http.get<Message[]>(`${this.apiUrl}/message/all`, {
       params: { username }
     });
-    // return this.http.get<Message[]>(
-    //   `${this.apiUrl}/message/all`, options:
-    //   this.queryParams
-    // );
   }
 
   public getAllMessagesForFirstUser(
@@ -32,6 +24,18 @@ export class ChatService {
   ): Observable<Message[]> {
     return this.http.get<Message[]>(
       `${this.apiUrl}/message/all-for-first-user`,
+      {
+        params: { firstUsername, secondUsername }
+      }
+    );
+  }
+
+  public getAllMessagesBetweenUsers(
+    firstUsername: string,
+    secondUsername: string
+  ): Observable<Message[]> {
+    return this.http.get<Message[]>(
+      `${this.apiUrl}/message/all-between-users`,
       {
         params: { firstUsername, secondUsername }
       }

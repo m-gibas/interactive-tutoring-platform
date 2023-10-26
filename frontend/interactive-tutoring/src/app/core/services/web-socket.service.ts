@@ -1,103 +1,71 @@
-// import { Injectable } from '@angular/core';
-// import { Message } from '../models/message.model';
-// import { environment } from 'src/environments/environment';
-// import { Client, Frame, IMessage } from '@stomp/stompjs';
-// import * as SockJS from 'sockjs-client';
+import { Injectable } from '@angular/core';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observer } from 'rxjs';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class WebSocketService {
-//   private apiUrl = environment.apiBaseUrl;
-//   private stompClient!: Client;
+import * as io from 'socket.io-client';
+import { Message } from '../models/message.model';
 
-//   webSocket!: WebSocket;
-//   messages: Message[] = [];
+@Injectable()
+export class SocketService {
+  private socket!: io.Socket;
 
-//   public connect() {
-//     this.webSocket = new WebSocket(`ws://${this.apiUrl}/ws`);
-//     // this.stompClient = Stomp.over(this.webSocket);
+  constructor() {
+    // this.socket = io.connect('http://localhost:8085', {
+    //   withCredentials: true,
+    //   transports: ['websocket']
+    // });
 
-//     const socket = new SockJS('http://your-server-url/ws');
-//     this.stompClient.configure({
-//       webSocketFactory: () => socket,
-//       connectHeaders: {},
-//       debug: (msg) => console.log(msg)
-//     });
+    this.socket?.on('connect', () => {
+      console.log('Connected to the server');
+    });
 
-//     this.stompClient.onConnect = (frame: Frame) => {
-//       // Handle the connection when it is established
-//       console.log('Connected:', frame);
+    this.socket?.on('connect_error', (event: any) => {
+      console.log(`Error: could not connect to WS errormsg: ${event}`);
+    });
 
-//       // Subscribe to a topic
-//       this.stompClient.subscribe('/topic/public', (message) => {
-//         this.handleIncomingMessage(message);
-//       });
-//     };
+    this.socket?.on('disconnect', () => {
+      console.log('Disconnected from the server');
+    });
+  }
 
-//     this.stompClient.onStompError = (frame: Frame) => {
-//       // Handle errors
-//       console.error('STOMP Error:', frame);
-//     };
+  connected(room: string) {
+    this.socket = io.connect('http://localhost:8085', {
+      withCredentials: true,
+      transports: ['websocket'],
+      query: { room }
+    });
 
-//     // this.stompClient.configure({
-//     //   brokerURL: `ws://${this.apiUrl}/ws`,
-//     //   onConnect: () => this.onConnected(),
-//     //   onStompError: (error) => this.onError(error)
-//     // });
+    // this.socket.on('connect', () => {
+    //   console.log('connected');
 
-//     this.stompClient.activate();
+    //   this.socket.on('tableModel', (data) => {
+    //     const tableModels = JSON.parse(data);
+    //   });
+    // });
+  }
 
-//     // this.webSocket.onopen = (event) => {
-//     //   console.log('Connection successful ', event);
-//     // };
+  disconnect() {
+    this.socket.disconnect();
+  }
 
-//     // this.webSocket.onmessage = (event) => {
-//     //   this.messages.push(JSON.parse(event.data));
-//     // };
+  sendMessage(message: Message) {
+    console.log('WEBSOCKETIO', message);
 
-//     // this.webSocket.onclose = (event) => {
-//     //   console.log('Connection closed ', event);
-//     // };
-//   }
+    this.socket.emit('send_message', message, (ack: any) => {
+      if (ack instanceof Error) {
+        console.error('Error sending message:', ack);
+      } else {
+        console.log('Message sent successfully');
+      }
+    });
+  }
 
-//   private handleIncomingMessage(message: IMessage) {
-//     // Handle incoming messages here
-//     console.log('Received message:', message.body);
-//   }
-
-//   sendMessage(destination: string, message: string) {
-//     this.stompClient.publish({
-//       destination,
-//       body: message
-//     });
-//   }
-
-//   public onConnected() {
-//     this.stompClient.subscribe('/topic/public', (message) =>
-//       this.onMessageReceived(message)
-//     );
-
-//     this.stompClient.publish({
-//       destination: 'app/add-user'
-//       // body: JSON.stringify({ username: this.username, type: 'JOIN' })
-//     });
-//   }
-
-//   public onError(err: any) {}
-
-//   // może te metody pozmieniać na private później jak nie są potrzebne
-//   onMessageReceived(payload: any) {
-//     const message = JSON.parse(payload.body);
-
-//     this.messages.push(message);
-//   }
-
-//   // public sendMessage(newMessage: Message) {
-//   //   this.webSocket.send(JSON.stringify(newMessage));
-//   // }
-
-//   public disconnect() {
-//     // this.webSocket.close();
-//   }
-// }
+  onNewMessage(): Observable<Message> {
+    return new Observable<Message>((observer) => {
+      this.socket.on('get_message', (res: Message) => {
+        console.log('New message received:', res);
+        observer.next(res);
+      });
+    });
+  }
+}

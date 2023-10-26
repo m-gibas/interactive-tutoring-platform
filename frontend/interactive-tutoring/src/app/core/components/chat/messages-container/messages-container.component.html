@@ -8,6 +8,14 @@
   </ng-container>
 </ng-container>
 
+<h2>messages array</h2>
+<ng-container *ngFor="let message of messages">
+  <div>
+    firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
+    {{ message.secondUserUsername }} message: {{ message.message }}
+  </div>
+</ng-container>
+
 <!-- <h2>webSocketService.messages</h2>
 <ng-container *ngFor="let message of webSocketService.messages">
   <div>
@@ -34,7 +42,7 @@
   </button>
 </form>
 
-<h1>TEST</h1>
+<!-- <h1>TEST</h1>
 <div>
   <h2>Chat Room</h2>
   <input [(ngModel)]="room" placeholder="Room name" />
@@ -57,4 +65,4 @@
   </div>
 </div>
 
-<h1>KONIEC TESTU</h1>
+<h1>KONIEC TESTU</h1> -->

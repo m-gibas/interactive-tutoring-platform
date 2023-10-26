@@ -22,9 +22,17 @@ public class SocketIOController {
         server.addConnectListener(onConnected());
         server.addDisconnectListener(onDisconnected());
         server.addEventListener("send_message", Message.class, onChatReceived());
-
     }
 
+
+//    sprawdzić czy działa wszystko z tym zakomentowanym kodem, jeśli tak to go pousuwać
+//    do tego jak obsłużyć pokój? bo nie ma sensu raczej, żeby był jako pole w Message
+//    ewentualnie może go usunąć, skoro i tak nie korzystam z pokoi aktualnie
+
+//    dodatkowo pom.xml mogę posprzątać trochę z dependencji
+
+//    może jako room przesyłać jakiegoś sklejonego stringa np firstUsername/secondUsername - tylko może niekoniecznie ze slashem
+//    myślę, że będzie małoinwazyjne, a w razie gdybym chciał dodać pokoje to pewnie się przyda
 
     private DataListener<Message> onChatReceived() {
         System.out.println("onChatReceived");

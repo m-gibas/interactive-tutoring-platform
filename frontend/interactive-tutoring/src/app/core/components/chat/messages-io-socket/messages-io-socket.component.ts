@@ -1,34 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Message } from 'src/app/core/models/message.model';
-import { WebSocketIoService } from 'src/app/core/services/web-socket-io.service';
+import { SocketService } from 'src/app/core/services/web-socket.service';
 
 @Component({
-  selector: 'app-messages-test',
-  templateUrl: './messages-test.component.html'
+  selector: 'app-messages-io-socket',
+  templateUrl: './messages-io-socket.component.html'
 })
-export class MessagesTestComponent implements OnInit {
-  room: string = 'a';
+export class MessagesIoSocketComponent {
+  room: string = '';
   message!: string;
   messages: any[] = [];
 
-  constructor(private socketService: WebSocketIoService) {}
+  constructor(private socketService: SocketService) {}
 
   ngOnInit(): void {
-    console.log('onInit', this.socketService.onNewMessage);
-
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    // this.socketService.connected();
     // this.socketService.onNewMessage().subscribe((message: any) => {
     //   console.log('a tu dziala?', message);
-
     //   this.messages.push(message);
     // });
   }
 
   connect() {
-    this.socketService.connect(this.room);
-    this.socketService.onNewMessage().subscribe((message: any) => {
+    this.socketService.connected(this.room);
+
+    this.socketService.onNewMessage().subscribe((message: Message) => {
       console.log('a tu dziala?', message);
 
-      this.messages.push(message);
+      this.messages.push(message.message);
     });
   }
 

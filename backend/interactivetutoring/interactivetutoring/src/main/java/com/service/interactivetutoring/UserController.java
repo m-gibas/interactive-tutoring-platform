@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.interactivetutoring.model.LoginUser;
 import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.UserService;
+import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -81,20 +82,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    raczej to dać jako RequestBody?
     @PostMapping("/login")
-//    public ResponseEntity<?> loginUser(@RequestParam String username, @RequestParam String password, HttpSession session) {
     public ResponseEntity<?> loginUser(@RequestBody LoginUser loginUser, HttpSession session) {
         User user = userService.findUserByUsername(loginUser.getUsername());
         if(user != null && encoder.matches(loginUser.getPassword(), user.getPassword())) {
-//            pomyśleć, czy może ustawiać tu użytkownika do sesji i np po 30 minutach wylogowuje?
-
-            System.out.println(loginUser.getUsername());
             session.setAttribute("username", loginUser.getUsername());
-            System.out.println("sesja" + session.getAttribute("username"));
-//            nie wiem czy to jest poprawnie, ale coś takiego znalazłem?
-//            Property [max age] cannot be added to SessionCookieConfig for context [] as the context has been initialised
-//            session.getServletContext().getSessionCookieConfig().setMaxAge(30 * 60);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else {

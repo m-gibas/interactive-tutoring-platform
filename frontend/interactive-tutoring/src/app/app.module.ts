@@ -9,23 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsersComponent } from './core/components/users/users.component';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { MessagesContainerComponent } from './core/components/chat/messages-container/messages-container.component';
-import { WebSocketService2 } from './core/services/web-socket-rxjs.service';
-// import { WebSocketService } from './core/services/web-socket.service';
-import { StompService } from './core/services/stomp.service';
-import { WebSocketIoService } from './core/services/web-socket-io.service';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
-import { MessagesTestComponent } from './core/components/chat/messages-test/messages-test.component';
-// import { WrappedSocket } from 'ngx-socket-io/src/socket-io.service';
+import { MessagesIoSocketComponent } from './core/components/chat/messages-io-socket/messages-io-socket.component';
+import { SocketService } from './core/services/web-socket.service';
 
-// const config: SocketIoConfig = {
-//   url: environment.socketUrl,
-//   options: { path: 'ws', transports: ['websocket'] }
-// };
 const config: SocketIoConfig = {
   url: environment.socketUrl,
   options: {}
-  // options: { transports: ['websocket'] }
 };
 
 @NgModule({
@@ -35,7 +26,7 @@ const config: SocketIoConfig = {
     UsersComponent,
     ChatComponent,
     MessagesContainerComponent,
-    MessagesTestComponent
+    MessagesIoSocketComponent
   ],
   imports: [
     BrowserModule,
@@ -45,13 +36,7 @@ const config: SocketIoConfig = {
     HttpClientModule,
     SocketIoModule.forRoot(config)
   ],
-  providers: [
-    // WebSocketService,
-    // WebSocketService2,
-    // WrappedSocket,
-    WebSocketIoService
-    // StompService
-  ],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

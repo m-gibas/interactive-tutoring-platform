@@ -12,9 +12,12 @@ public class SocketIOService {
     public void sendMessage(String room, String eventName, SocketIOClient senderClient, Message message) {
         for (
                 SocketIOClient client : senderClient.getNamespace().getRoomOperations(room).getClients()) {
-            if (!client.getSessionId().equals(senderClient.getSessionId())) {
+//            log.info("sendMessage method info: {}",!client.getSessionId().equals(senderClient.getSessionId()));
+//            log.info("sendMessage client.getSessionId(): {}",client.getSessionId());
+//            log.info("sendMessage senderClient.getSessionId(): {}",senderClient.getSessionId());
+//            if (!client.getSessionId().equals(senderClient.getSessionId())) {
                 client.sendEvent(eventName, message);
-            }
+//            }
         }
     }
 

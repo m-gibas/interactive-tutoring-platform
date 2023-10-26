@@ -24,6 +24,10 @@ public class MessageService {
         return messageRepository.findAllByFirstUserUsernameAndSecondUserUsername(firstUsername, secondUsername);
     }
 
+    public List<Message> findAllMessagesBetweenUsers(String firstUsername, String secondUsername) {
+        return messageRepository.getAllBetweenUsers(firstUsername, secondUsername);
+    }
+
     public Message addMessage(Message message) {
         return messageRepository.save(message);
     }

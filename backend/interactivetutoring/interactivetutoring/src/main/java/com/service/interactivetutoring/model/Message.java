@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Entity
 @Validated
 public class Message {
@@ -18,6 +21,8 @@ public class Message {
     private String secondUserUsername;
     private String message;
     private String room;
+//    Date zaimportowane z java.sql.Date - do sprawdzenia, czy na pewno dobrze
+    private Timestamp date;
 
     public Message() {
     }
@@ -62,6 +67,14 @@ public class Message {
         this.room = room;
     }
 
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -69,6 +82,8 @@ public class Message {
                 ", firstUserUsername='" + firstUserUsername + '\'' +
                 ", secondUserUsername='" + secondUserUsername + '\'' +
                 ", message='" + message + '\'' +
+                ", room='" + room + '\'' +
+                ", date=" + date +
                 '}';
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,10 +33,21 @@ public class MessageController {
         return new ResponseEntity<>(allMessages, HttpStatus.OK);
     }
 
+ @GetMapping("/all-between-users")
+    public ResponseEntity<List<Message>> findAllMessagesBetweenUsers(@RequestParam String firstUsername, @RequestParam String secondUsername) {
+        List<Message> allMessages = messageService.findAllMessagesBetweenUsers(firstUsername, secondUsername);
+        return new ResponseEntity<>(allMessages, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Message> addMessage(@RequestBody Message message) {
+        LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
+        message.setDate(timestamp);
         System.out.println("add message");
         Message addedMessage = messageService.addMessage(message);
         return new ResponseEntity<>(addedMessage, HttpStatus.OK);
     }
+
+
 }
