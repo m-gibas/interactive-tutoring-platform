@@ -45,7 +45,7 @@ export class MessagesContainerComponent
 
   messages$!: Observable<Message[]>;
   private subscriptions$ = new Subscription();
-  room: string = 'a';
+  // room: string = 'a';
   message: string = '';
   messages: Message[] = [];
   liveData$!: Observable<Message[]>;
@@ -89,8 +89,6 @@ export class MessagesContainerComponent
     //   this.messages.push(message);
     // });
 
-    this.connect();
-
     // this.currentUsername$ = this.userService
     //   .getCurrentUsername()
     //   .subscribe((res) => {
@@ -116,6 +114,7 @@ export class MessagesContainerComponent
         .pipe(
           mergeMap((res) => {
             this.firstUsername = res.username;
+            this.connect();
             return this.setMessagesObservable();
           })
         )
@@ -186,7 +185,8 @@ export class MessagesContainerComponent
     const newMessage: Message = {
       firstUserUsername: this.firstUsername,
       secondUserUsername: this.secondUsername,
-      message: this.newMessageForm.value.message!
+      message: this.newMessageForm.value.message!,
+      room: this.generateUniqueRoomName(this.firstUsername, this.secondUsername)
     };
 
     // this.webSocketService2.sendMessage(newMessage);
@@ -205,7 +205,7 @@ export class MessagesContainerComponent
       }
     });
 
-    this.socketService.sendMessage({ ...newMessage, room: this.room });
+    this.socketService.sendMessage({ ...newMessage });
   }
 
   // stare useless
@@ -226,7 +226,12 @@ export class MessagesContainerComponent
 
   // nowy socket działający
   connect() {
-    this.socketService.connected(this.room);
+    console.log(
+      this.generateUniqueRoomName(this.firstUsername, this.secondUsername)
+    );
+    this.socketService.connected(
+      this.generateUniqueRoomName(this.firstUsername, this.secondUsername)
+    );
 
     this.socketService.onNewMessage().subscribe((message: Message) => {
       // console.log('a tu dziala?', message);
@@ -239,5 +244,13 @@ export class MessagesContainerComponent
 
   disconnect() {
     this.socketService.disconnect();
+  }
+
+  private generateUniqueRoomName(
+    firstUsername: string,
+    secondUsername: string
+  ): string {
+    const sortedUsernames: string[] = [firstUsername, secondUsername].sort();
+    return sortedUsernames.join('_');
   }
 }

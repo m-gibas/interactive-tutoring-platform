@@ -82,6 +82,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // poprawić logowanie do systemu - aktualnie da się tylko jeden raz i się zawiesza (w sumie to nie wiem kiedy to przestaje działać)
+//    do tego dodać wyświetlanie błędów na froncie i poprawić komunikaty i warunki, dodać np regexa czy coś - jakbym dodał imię i nazwisko, to żeby tylko można było litery pisać
+//     i dodać też obsługę wylogowania (w apce)
+
+//    mogę pousuwac nieużywane metody też
+    //    dodatkowo pom.xml mogę posprzątać trochę z dependencji np.: mvn dependency:analyze -DignoreNonCompile
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginUser loginUser, HttpSession session) {
         User user = userService.findUserByUsername(loginUser.getUsername());

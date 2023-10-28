@@ -1,26 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import { Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import * as io from 'socket.io-client';
 import { Message } from '../models/message.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class SocketService {
   private socket!: io.Socket;
 
   constructor() {
-    // this.socket = io.connect('http://localhost:8085', {
-    //   withCredentials: true,
-    //   transports: ['websocket']
-    // });
-
     this.socket?.on('connect', () => {
       console.log('Connected to the server');
     });
 
     this.socket?.on('connect_error', (event: any) => {
-      console.log(`Error: could not connect to WS errormsg: ${event}`);
+      console.error(`Error: could not connect to WS: ${event}`);
     });
 
     this.socket?.on('disconnect', () => {
@@ -29,19 +24,11 @@ export class SocketService {
   }
 
   connected(room: string) {
-    this.socket = io.connect('http://localhost:8085', {
+    this.socket = io.connect(environment.socketUrl, {
       withCredentials: true,
       transports: ['websocket'],
       query: { room }
     });
-
-    // this.socket.on('connect', () => {
-    //   console.log('connected');
-
-    //   this.socket.on('tableModel', (data) => {
-    //     const tableModels = JSON.parse(data);
-    //   });
-    // });
   }
 
   disconnect() {

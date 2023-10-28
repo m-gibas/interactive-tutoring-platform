@@ -9,15 +9,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsersComponent } from './core/components/users/users.component';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { MessagesContainerComponent } from './core/components/chat/messages-container/messages-container.component';
-import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
-import { environment } from 'src/environments/environment';
 import { MessagesIoSocketComponent } from './core/components/chat/messages-io-socket/messages-io-socket.component';
 import { SocketService } from './core/services/web-socket.service';
+// import { environment } from 'src/environments/environment';
+// import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
-const config: SocketIoConfig = {
-  url: environment.socketUrl,
-  options: {}
-};
+// const config: SocketIoConfig = {
+//   url: environment.socketUrl,
+//   options: {}
+// };
 
 @NgModule({
   declarations: [
@@ -33,8 +33,8 @@ const config: SocketIoConfig = {
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(config)
+    HttpClientModule
+    // SocketIoModule.forRoot(config)
   ],
   providers: [SocketService],
   bootstrap: [AppComponent]
