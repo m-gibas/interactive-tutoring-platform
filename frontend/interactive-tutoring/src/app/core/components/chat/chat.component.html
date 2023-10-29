@@ -1,0 +1,27 @@
+<div>
+  <h3>Choose who to chat:</h3>
+
+  <!-- potrzebuje jeszcze filtrowania, że nie pokazuje zalogowanego użytkownika -->
+  <div *ngFor="let user of users$ | async">
+    <input
+      [(ngModel)]="selectedUsername"
+      type="radio"
+      [value]="user.username"
+    />Username: {{ user.username }}
+  </div>
+
+  <h3>Messages:</h3>
+  <!-- <ng-container *ngIf="currentUsername$ | async as currentUsername"> -->
+  <ng-container *ngIf="selectedUsername">
+    <!-- przesyłać tutaj w firstUsername zamiast sztywno nazwy to sczytywać z backu odpowiednią nową metodą z seesion.getAttribute -->
+    <!-- [firstUsername]="(currentUsername$ | async) || ''" -->
+
+    <app-messages-container
+      [secondUsername]="selectedUsername"
+    ></app-messages-container>
+  </ng-container>
+  <!-- </ng-container> -->
+</div>
+
+<h1>TEST</h1>
+<app-messages-io-socket></app-messages-io-socket>

@@ -1,5 +1,8 @@
 package com.service.interactivetutoring;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,12 +12,17 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @SpringBootApplication
-public class InteractivetutoringApplication {
+public class InteractivetutoringApplication  implements ServletContextInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InteractivetutoringApplication.class, args);
 	}
 
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		servletContext.getSessionCookieConfig().setName("SESSIONID");
+		servletContext.getSessionCookieConfig().setMaxAge(30 * 60);
+	}
 
 	@Bean
 	public CorsFilter corsFilter() {

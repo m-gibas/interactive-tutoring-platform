@@ -19,4 +19,36 @@ export class UserService {
   public addUser(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/user/add`, user);
   }
+
+  // public loginUser(user: User): Observable<any> {
+  //   return this.http.post(
+  //     `${this.apiUrl}/user/login`,
+  //     {
+  //       params: { username: user.username, password: user.password }
+  //     },
+  //     {
+  //       withCredentials: true
+  //     }
+  //   );
+  // }
+
+  public loginUser(user: User): Observable<any> {
+    // trochę to przerobić i typ zwracany poprawić
+    // albo inne metody przerobić na ten styl
+    const url = `${this.apiUrl}/user/login`;
+    const data = {
+      username: user.username,
+      password: user.password
+    };
+
+    return this.http.post(url, data, {
+      withCredentials: true
+    });
+  }
+
+  public getCurrentUsername(): Observable<any> {
+    return this.http.get<string>(`${this.apiUrl}/user/get-current-username`, {
+      withCredentials: true
+    });
+  }
 }

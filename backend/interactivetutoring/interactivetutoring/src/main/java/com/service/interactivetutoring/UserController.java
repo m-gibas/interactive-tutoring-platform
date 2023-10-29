@@ -1,7 +1,11 @@
 package com.service.interactivetutoring;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.interactivetutoring.model.LoginUser;
 import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.UserService;
+import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +32,7 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
+//    pytanie czy to i initBinder potrzebne?
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public void initBinder(WebDataBinder webDataBinder) {
@@ -76,15 +82,18 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    nie wiem czy przy username w parametrach powinno być @Valid, do sprawdzenia
+    // poprawić logowanie do systemu - aktualnie da się tylko jeden raz i się zawiesza (w sumie to nie wiem kiedy to przestaje działać)
+//    do tego dodać wyświetlanie błędów na froncie i poprawić komunikaty i warunki, dodać np regexa czy coś - jakbym dodał imię i nazwisko, to żeby tylko można było litery pisać
+//     i dodać też obsługę wylogowania (w apce)
+
+//    mogę pousuwac nieużywane metody też
+    //    dodatkowo pom.xml mogę posprzątać trochę z dependencji np.: mvn dependency:analyze -DignoreNonCompile
+
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestParam String username, @RequestParam String password, HttpSession session) {
-        User user = userService.findUserByUsername(username);
-        if(user != null && encoder.matches(password, user.getPassword())) {
-//            pomyśleć, czy może ustawiać tu użytkownika do sesji i np po 30 minutach wylogowuje?
-            session.setAttribute("username", username);
-//            nie wiem czy to jest poprawnie, ale coś takiego znalazłem?
-            session.getServletContext().getSessionCookieConfig().setMaxAge(30 * 60);
+    public ResponseEntity<?> loginUser(@RequestBody LoginUser loginUser, HttpSession session) {
+        User user = userService.findUserByUsername(loginUser.getUsername());
+        if(user != null && encoder.matches(loginUser.getPassword(), user.getPassword())) {
+            session.setAttribute("username", loginUser.getUsername());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else {
@@ -99,5 +108,19 @@ public class UserController {
         }
         session.invalidate();
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/get-current-username")
+    @ResponseBody
+    public ResponseEntity<String> getCurrentUsername(HttpSession session) throws JsonProcessingException {
+        String username = (String) session.getAttribute("username");
+        Map<String, Object> usernameObject = new HashMap<>();
+        usernameObject.put("username", username);
+        ObjectMapper mapper = new ObjectMapper();
+
+        if (username == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(mapper.writeValueAsString(usernameObject), HttpStatus.OK);
     }
 }
