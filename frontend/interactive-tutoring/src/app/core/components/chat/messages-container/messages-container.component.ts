@@ -9,7 +9,13 @@ import {
   ViewChild,
   inject
 } from '@angular/core';
-import { FormBuilder, RequiredValidator, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  RequiredValidator,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import {
   BehaviorSubject,
   Observable,
@@ -26,10 +32,13 @@ import { Message } from 'src/app/core/models/message.model';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { SocketService } from 'src/app/core/services/web-socket.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-messages-container',
-  templateUrl: './messages-container.component.html'
+  templateUrl: './messages-container.component.html',
+  standalone: true,
+  imports: [NgIf, NgFor, FormsModule, ReactiveFormsModule, AsyncPipe]
 })
 export class MessagesContainerComponent
   implements OnInit, OnDestroy, OnChanges
