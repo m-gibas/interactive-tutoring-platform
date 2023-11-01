@@ -1,0 +1,14 @@
+<ng-container *ngIf="currentUser && currentUser.length > 4; else navForGuest">
+  <nav>
+    <a routerLink="/">Main page</a>
+    <a routerLink="/chat">Chat</a>
+    <a routerLink="/logout">Logout</a>
+  </nav>
+</ng-container>
+
+<ng-template #navForGuest>
+  <nav>
+    <a routerLink="/">Main page</a>
+    <a routerLink="/login">Sign in</a>
+  </nav>
+</ng-template>

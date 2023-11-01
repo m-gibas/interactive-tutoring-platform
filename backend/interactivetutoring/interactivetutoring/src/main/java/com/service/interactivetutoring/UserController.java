@@ -92,13 +92,16 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginUser loginUser, HttpSession session) {
         User user = userService.findUserByUsername(loginUser.getUsername());
-        if(user != null && encoder.matches(loginUser.getPassword(), user.getPassword())) {
-            session.setAttribute("username", loginUser.getUsername());
-            return new ResponseEntity<>(HttpStatus.OK);
+
+        if(user == null) {
+            return new ResponseEntity<>("There is no user with such username!", HttpStatus.NOT_FOUND);
         }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(!encoder.matches(loginUser.getPassword(), user.getPassword())) {
+            return new ResponseEntity<>("Password invalid!", HttpStatus.NOT_FOUND);
         }
+
+        session.setAttribute("username", loginUser.getUsername());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/logout")
@@ -119,7 +122,8 @@ public class UserController {
         ObjectMapper mapper = new ObjectMapper();
 
         if (username == null) {
-            return ResponseEntity.notFound().build();
+            new ResponseEntity<>(null, HttpStatus.OK);
+//            return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(mapper.writeValueAsString(usernameObject), HttpStatus.OK);
     }

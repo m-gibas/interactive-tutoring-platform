@@ -1,7 +1,10 @@
-<p>Login:</p>
-<form [formGroup]="form" (ngSubmit)="login()">
+<p>Register yourself:</p>
+<form [formGroup]="form" (ngSubmit)="createAccount()">
   <label for="username">Username: </label>
   <input id="username" type="text" [formControl]="form.controls.username" />
+  <br />
+  <label for="email">Email: </label>
+  <input id="email" type="text" [formControl]="form.controls.email" />
   <br />
   <label for="password">Password: </label>
   <input id="password" type="password" [formControl]="form.controls.password" />
@@ -9,8 +12,3 @@
   <p>{{ errorMessage }}</p>
   <button [disabled]="form.invalid" type="submit">Submit</button>
 </form>
-
-<div class="register-prompt">
-  <p>First time here? Create a new account!</p>
-  <a routerLink="/register">Register yourself</a>
-</div>

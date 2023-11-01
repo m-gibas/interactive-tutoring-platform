@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
+import { LoginUser, User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class UserService {
   //   );
   // }
 
-  public loginUser(user: User): Observable<any> {
+  public loginUser(user: LoginUser): Observable<any> {
     // trochę to przerobić i typ zwracany poprawić
     // albo inne metody przerobić na ten styl
     const url = `${this.apiUrl}/user/login`;
