@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { Message } from 'src/app/core/models/message.model';
 import { SocketService } from 'src/app/core/services/web-socket.service';
+import { NgIf, NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-messages-io-socket',
-  templateUrl: './messages-io-socket.component.html'
+  templateUrl: './messages-io-socket.component.html',
+  standalone: true,
+  imports: [FormsModule, NgIf, NgFor]
 })
 export class MessagesIoSocketComponent {
   room: string = '';
