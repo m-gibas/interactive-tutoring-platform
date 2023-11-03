@@ -46,6 +46,8 @@ export class UserService {
     });
   }
 
+  // dodać teraz logout i zastosować go na froncie
+
   public getCurrentUsername(): Observable<any> {
     return this.http.get<string>(`${this.apiUrl}/user/get-current-username`, {
       withCredentials: true

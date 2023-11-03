@@ -22,8 +22,8 @@ export class RegisterComponent {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  // poprawić to na backu, że zwraca mi tablicę błędów i wtedy będę mógł wyświetlić konkretne błędy pod danym polem
-  errorMessage: string = '';
+  errorMessage: string[] = [];
+  errors: { username?: string; email?: string; password?: string } = {};
 
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
@@ -39,9 +39,17 @@ export class RegisterComponent {
         this.form.reset();
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMessage = err.error.message;
-        console.log(err);
-        // alert(err.message);
+        this.errorMessage = err.error.message.split(', ');
+
+        this.errors.username = this.errorMessage.find((el) =>
+          el.includes('Username')
+        );
+        this.errors.email = this.errorMessage.find((el) =>
+          el.includes('Email')
+        );
+        this.errors.password = this.errorMessage.find((el) =>
+          el.includes('Password')
+        );
       }
     });
   }
