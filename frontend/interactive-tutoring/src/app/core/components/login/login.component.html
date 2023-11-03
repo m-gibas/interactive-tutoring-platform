@@ -1,24 +1,44 @@
-<p>Register yourself:</p>
-<form [formGroup]="form" (ngSubmit)="createAccount()">
-  <label for="username">Username: </label>
-  <input id="username" type="text" [formControl]="form.controls.username" />
-  <br />
-  <label for="email">Email: </label>
-  <input id="email" type="text" [formControl]="form.controls.email" />
-  <br />
-  <label for="password">Password: </label>
-  <input id="password" type="text" [formControl]="form.controls.password" />
-  <br />
-  <button [disabled]="form.invalid" type="submit">Submit</button>
-</form>
+<div class="signing-container">
+  <form [formGroup]="form" (ngSubmit)="login()">
+    <div class="signing-container--title">Login:</div>
+    <div class="signing-input-box">
+      <input
+        id="username"
+        type="text"
+        [formControl]="form.controls.username"
+        placeholder="Username"
+      />
+      <i class="bi bi-person username"></i>
+      <div
+        *ngIf="errorToShow.username"
+        class="signing-input-box__error-message"
+      >
+        {{ errorMessage }}
+      </div>
+    </div>
+    <div class="signing-input-box">
+      <input
+        id="password"
+        type="password"
+        [formControl]="form.controls.password"
+        placeholder="Password"
+      />
+      <i class="bi bi-lock password"></i>
+      <div
+        *ngIf="errorToShow.password"
+        class="signing-input-box__error-message"
+      >
+        {{ errorMessage }}
+      </div>
+    </div>
+    <button [disabled]="form.invalid" type="submit">Submit</button>
+  </form>
 
-<p>Login:</p>
-<form [formGroup]="form" (ngSubmit)="login()">
-  <label for="username">Username: </label>
-  <input id="username" type="text" [formControl]="form.controls.username" />
-  <br />
-  <label for="password">Password: </label>
-  <input id="password" type="text" [formControl]="form.controls.password" />
-  <br />
-  <button type="submit">Submit</button>
-</form>
+  <div class="register-prompt">
+    <p>
+      First time here? <br />
+      Create a new account!
+    </p>
+    <a routerLink="/register">Register yourself</a>
+  </div>
+</div>

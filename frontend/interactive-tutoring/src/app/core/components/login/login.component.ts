@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import {
   FormBuilder,
   Validators,
@@ -6,50 +6,45 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
+import { LoginUser } from '../../models/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router, RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule]
+  imports: [FormsModule, ReactiveFormsModule, RouterLink, NgIf]
 })
 export class LoginComponent {
+  private fb = inject(FormBuilder);
+  private userService = inject(UserService);
+  private router = inject(Router);
+
   @Output() emitValue: EventEmitter<any> = new EventEmitter();
+
+  errorMessage: string = '';
+
+  errorToShow: { username?: boolean; password?: boolean } = {};
 
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    email: ['', Validators.required],
     password: ['', Validators.required]
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService
-  ) {}
-
-  createAccount() {
-    this.userService.addUser(this.form.getRawValue()).subscribe({
-      next: (res: User) => {
-        console.log(res);
-        this.form.reset();
-        this.emitValue.emit('OK');
-      },
-      error: (err: HttpErrorResponse) => {
-        alert(err.message);
-      }
-    });
-  }
-
   login() {
     this.userService.loginUser(this.form.getRawValue()).subscribe({
-      next: (res: User) => {
+      next: (res: LoginUser) => {
         console.log(res);
+        this.router.navigateByUrl('/');
         this.form.reset();
       },
       error: (err: HttpErrorResponse) => {
-        alert(err.message);
+        this.errorMessage = err.error;
+
+        this.errorToShow.username = this.errorMessage.includes('username');
+        this.errorToShow.password = this.errorMessage.includes('Password');
       }
     });
     //   account

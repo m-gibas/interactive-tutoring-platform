@@ -1,3 +1,31 @@
-.test {
-    color: white;
+.register-prompt {
+  width: 100%;
+  margin-top: 2.5rem;
+  padding: 0.55rem;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
+  //   posprawdzać te kolory jeszcze
+  //   border: solid 1px rgba(0, 0, 0, 0.2);
+  //   border-radius: 0.3rem;
+  //   background: rgba(0, 0, 0, 0.03);
+  //   box-shadow:
+  //     inset 0 0 3px rgba(0, 0, 0, 0.15),
+  //     0 0 2px rgba(0, 0, 0, 0.1);
+  a {
+    display: block;
+    margin: 0.3rem 0;
+    padding: 0.33rem;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+    background: #7d2ae8;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
 }
