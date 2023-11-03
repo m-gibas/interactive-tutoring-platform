@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -13,6 +13,8 @@ import { Observable, Subscription, take } from 'rxjs';
 export class MainPageComponent implements OnInit {
   private userService = inject(UserService);
 
+  private cdr = inject(ChangeDetectorRef);
+
   protected currentUser!: string;
 
   currUser!: Observable<string>;
@@ -22,10 +24,14 @@ export class MainPageComponent implements OnInit {
 
     this.userService
       .getCurrentUsername()
-      .pipe(take(1))
+      // .pipe(take(1))
       .subscribe((user) => {
         console.log('curr user: ', user);
         this.currentUser = user.username;
+        // nie działa :(( nie odświeża sie
+        console.log(this.currUser);
+
+        this.cdr.detectChanges();
         // return true;
       });
   }

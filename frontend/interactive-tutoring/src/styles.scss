@@ -12,6 +12,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Montserrat', 'Open Sans', 'Sometype Mono', sans-serif;
+  font-weight: 400;
 }
 
 body {
@@ -22,4 +23,8 @@ html,
 body {
   height: 100vh;
   width: 100%;
+}
+
+.big {
+  height: 200vh;
 }
