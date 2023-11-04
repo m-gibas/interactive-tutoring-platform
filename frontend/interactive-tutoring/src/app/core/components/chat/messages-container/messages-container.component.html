@@ -1,37 +1,9 @@
-<h2>messages$</h2>
-<ng-container *ngIf="messages$ | async as messages">
-  <ng-container *ngFor="let message of messages">
-    <div>
-      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-      {{ message.secondUserUsername }} message: {{ message.message }}
-    </div>
-  </ng-container>
-</ng-container>
-
-<h2>messages array</h2>
+<h2>messages array - title</h2>
 <ng-container *ngFor="let message of messages">
   <div>
     firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
     {{ message.secondUserUsername }} message: {{ message.message }}
   </div>
-</ng-container>
-
-<!-- <h2>webSocketService.messages</h2>
-<ng-container *ngFor="let message of webSocketService.messages">
-  <div>
-    firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-    {{ message.secondUserUsername }} message: {{ message.message }}
-  </div>
-</ng-container> -->
-
-<h2>liveData$</h2>
-<ng-container *ngIf="liveData$ | async as messages">
-  <ng-container *ngFor="let message of messages">
-    <div>
-      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-      {{ message.secondUserUsername }} message: {{ message.message }}
-    </div>
-  </ng-container>
 </ng-container>
 
 <form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
@@ -41,28 +13,3 @@
     Send message
   </button>
 </form>
-
-<!-- <h1>TEST</h1>
-<div>
-  <h2>Chat Room</h2>
-  <input [(ngModel)]="room" placeholder="Room name" />
-  <button (click)="connect()">Connect</button>
-  <button (click)="disconnect()">Disconnect</button>
-</div>
-
-<div *ngIf="room">
-  <hr />
-  <h3>Room: {{ room }}</h3>
-  <div>
-    <input [(ngModel)]="message" placeholder="Type a message" />
-    <button (click)="sendMessageSocket()">Send</button>
-  </div>
-
-  <div>
-    <ul>
-      <li *ngFor="let msg of messages">{{ msg }}</li>
-    </ul>
-  </div>
-</div>
-
-<h1>KONIEC TESTU</h1> -->

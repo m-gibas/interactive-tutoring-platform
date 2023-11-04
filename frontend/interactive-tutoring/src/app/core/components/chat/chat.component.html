@@ -11,18 +11,10 @@
     </ng-container>
   </div>
 
-  <h3>Messages:</h3>
-  <!-- <ng-container *ngIf="currentUsername$ | async as currentUsername"> -->
-  <ng-container *ngIf="selectedUsername">
-    <!-- przesyłać tutaj w firstUsername zamiast sztywno nazwy to sczytywać z backu odpowiednią nową metodą z seesion.getAttribute -->
-    <!-- [firstUsername]="(currentUsername$ | async) || ''" -->
-
+  <ng-container *ngIf="selectedUsername && currentUser">
     <app-messages-container
+      [firstUsername]="currentUser"
       [secondUsername]="selectedUsername"
     ></app-messages-container>
   </ng-container>
-  <!-- </ng-container> -->
 </div>
-
-<h1>TEST</h1>
-<app-messages-io-socket></app-messages-io-socket>

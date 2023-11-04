@@ -27,11 +27,12 @@ public class MessageController {
         return new ResponseEntity<>(allMessages, HttpStatus.OK);
     }
 
-    @GetMapping("/all-for-first-user")
-    public ResponseEntity<List<Message>> findAllMessagesForUser(@RequestParam String firstUsername, @RequestParam String secondUsername) {
-        List<Message> allMessages = messageService.findAllMessagesByBothUsernames(firstUsername, secondUsername);
-        return new ResponseEntity<>(allMessages, HttpStatus.OK);
-    }
+//    probably to delete
+//    @GetMapping("/all-for-first-user")
+//    public ResponseEntity<List<Message>> findAllMessagesForUser(@RequestParam String firstUsername, @RequestParam String secondUsername) {
+//        List<Message> allMessages = messageService.findAllMessagesByBothUsernames(firstUsername, secondUsername);
+//        return new ResponseEntity<>(allMessages, HttpStatus.OK);
+//    }
 
  @GetMapping("/all-between-users")
     public ResponseEntity<List<Message>> findAllMessagesBetweenUsers(@RequestParam String firstUsername, @RequestParam String secondUsername) {
