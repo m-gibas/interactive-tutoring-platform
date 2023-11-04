@@ -39,7 +39,7 @@ export class LoginComponent {
       .loginUser(this.form.getRawValue())
       .pipe(take(1))
       .subscribe({
-        next: (res: LoginUser) => {
+        next: () => {
           this.form.reset();
           this.router.navigateByUrl('/');
         },

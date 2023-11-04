@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable, filter, take } from 'rxjs';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
@@ -16,11 +16,7 @@ export class MainPageComponent implements OnInit {
 
   protected currentUser!: string;
 
-  currUser!: Observable<string>;
-
   ngOnInit(): void {
-    this.currUser = this.userService.getCurrentUsername();
-
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((res) => {

@@ -20,41 +20,29 @@ export class UserService {
     return this.http.post<User>(`${this.apiUrl}/user/add`, user);
   }
 
-  // public loginUser(user: User): Observable<any> {
-  //   return this.http.post(
-  //     `${this.apiUrl}/user/login`,
-  //     {
-  //       params: { username: user.username, password: user.password }
-  //     },
-  //     {
-  //       withCredentials: true
-  //     }
-  //   );
-  // }
-
-  public loginUser(user: LoginUser): Observable<any> {
-    // trochę to przerobić i typ zwracany poprawić
-    // albo inne metody przerobić na ten styl
-    const url = `${this.apiUrl}/user/login`;
+  public loginUser(user: LoginUser): Observable<string | null> {
     const data = {
       username: user.username,
       password: user.password
     };
 
-    return this.http.post(url, data, {
+    return this.http.post<string | null>(`${this.apiUrl}/user/login`, data, {
       withCredentials: true
     });
   }
 
-  public logoutUser(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/logout`, {
+  public logoutUser(): Observable<void> {
+    return this.http.get<void>(`${this.apiUrl}/user/logout`, {
       withCredentials: true
     });
   }
 
-  public getCurrentUsername(): Observable<any> {
-    return this.http.get<string>(`${this.apiUrl}/user/get-current-username`, {
-      withCredentials: true
-    });
+  public getCurrentUsername(): Observable<{ username: string }> {
+    return this.http.get<{ username: string }>(
+      `${this.apiUrl}/user/get-current-username`,
+      {
+        withCredentials: true
+      }
+    );
   }
 }
