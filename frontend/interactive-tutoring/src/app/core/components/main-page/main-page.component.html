@@ -1,7 +1,12 @@
 <ng-container *ngIf="currentUser && currentUser.length > 4; else navForGuest">
   <nav>
     <a routerLink="/">Main page</a>
-    <a routerLink="/chat">Chat</a>
+    <a
+      routerLink="/chat"
+      [queryParams]="{ currentUser }"
+      queryParamsHandling="merge"
+      >Chat</a
+    >
     <a routerLink="/logout">Logout</a>
   </nav>
 </ng-container>

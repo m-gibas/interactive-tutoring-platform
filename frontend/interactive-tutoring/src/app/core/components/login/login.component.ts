@@ -10,6 +10,7 @@ import { LoginUser } from '../../models/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -34,32 +35,20 @@ export class LoginComponent {
   });
 
   login() {
-    this.userService.loginUser(this.form.getRawValue()).subscribe({
-      next: (res: LoginUser) => {
-        console.log(res);
-        this.router.navigateByUrl('/');
-        this.form.reset();
-      },
-      error: (err: HttpErrorResponse) => {
-        this.errorMessage = err.error;
+    this.userService
+      .loginUser(this.form.getRawValue())
+      .pipe(take(1))
+      .subscribe({
+        next: (res: LoginUser) => {
+          this.form.reset();
+          this.router.navigateByUrl('/');
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.error;
 
-        this.errorToShow.username = this.errorMessage.includes('username');
-        this.errorToShow.password = this.errorMessage.includes('Password');
-      }
-    });
-    //   account
-    //     .createEmailSession(
-    //       this.form.controls.email.value,
-    //       this.form.controls.password.value
-    //     )
-    //     .then(
-    //       (res) => {
-    //         console.log('Login', res);
-    //         this.form.reset();
-    //       },
-    //       (err) => {
-    //         console.log(err);
-    //       }
-    //     );
+          this.errorToShow.username = this.errorMessage.includes('username');
+          this.errorToShow.password = this.errorMessage.includes('Password');
+        }
+      });
   }
 }

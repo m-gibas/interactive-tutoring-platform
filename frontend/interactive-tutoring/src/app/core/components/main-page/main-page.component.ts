@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable, Subscription, take } from 'rxjs';
+import { Observable, filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
@@ -12,6 +12,7 @@ import { Observable, Subscription, take } from 'rxjs';
 })
 export class MainPageComponent implements OnInit {
   private userService = inject(UserService);
+  private router = inject(Router);
 
   protected currentUser!: string;
 
@@ -20,13 +21,18 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     this.currUser = this.userService.getCurrentUsername();
 
-    this.userService
-      .getCurrentUsername()
-      .pipe(take(1))
-      .subscribe((user) => {
-        console.log('curr user: ', user);
-        this.currentUser = user.username;
-        // return true;
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res) => {
+        if (location.pathname === '/') {
+          this.userService
+            .getCurrentUsername()
+            .pipe(take(1))
+            .subscribe((user) => {
+              this.currentUser = user.username;
+              // return true;
+            });
+        }
       });
   }
 }
