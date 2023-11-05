@@ -20,6 +20,7 @@ public class InteractivetutoringApplication  implements ServletContextInitialize
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
+//		to chyba nie działa?
 		servletContext.getSessionCookieConfig().setName("SESSIONID");
 		servletContext.getSessionCookieConfig().setMaxAge(30 * 60);
 	}

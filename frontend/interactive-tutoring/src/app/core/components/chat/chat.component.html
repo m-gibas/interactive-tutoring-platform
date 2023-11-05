@@ -1,20 +1,23 @@
-<div>
-  <h3>Choose who to chat:</h3>
-
-  <div *ngFor="let user of users$ | async">
-    <ng-container *ngIf="user.username !== currentUser">
-      <input
-        [(ngModel)]="selectedUsername"
-        type="radio"
-        [value]="user.username"
-      />Username: {{ user.username }}
-    </ng-container>
+<div class="chat-container">
+  <div class="users-container">
+    <h3>Choose who to chat:</h3>
+    <div *ngFor="let user of users$ | async">
+      <ng-container *ngIf="user.username !== currentUser">
+        <input
+          [(ngModel)]="selectedUsername"
+          type="radio"
+          [value]="user.username"
+        />Username: {{ user.username }}
+      </ng-container>
+    </div>
   </div>
 
-  <ng-container *ngIf="selectedUsername && currentUser">
-    <app-messages-container
-      [firstUsername]="currentUser"
-      [secondUsername]="selectedUsername"
-    ></app-messages-container>
-  </ng-container>
+  <div class="messages-container">
+    <ng-container *ngIf="selectedUsername && currentUser">
+      <app-messages-container
+        [firstUsername]="currentUser"
+        [secondUsername]="selectedUsername"
+      ></app-messages-container>
+    </ng-container>
+  </div>
 </div>

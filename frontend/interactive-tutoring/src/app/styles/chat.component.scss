@@ -1,0 +1,44 @@
+app-chat {
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #8a8a8a;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #716e6e;
+  }
+
+  .chat-container {
+    position: fixed;
+    border: 1px solid black;
+    width: 50vw;
+    height: 60vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.2);
+
+    display: flex;
+  }
+
+  .users-container {
+    color: green;
+    width: 33%;
+    height: 100%;
+  }
+
+  .messages-container {
+    height: 100%;
+    width: 67%;
+    color: blueviolet;
+    // overflow: auto;
+  }
+}

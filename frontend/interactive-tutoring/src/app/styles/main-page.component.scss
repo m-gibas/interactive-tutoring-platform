@@ -6,6 +6,7 @@ app-main-page {
     top: 0;
     background: rgba(0, 0, 0, 0.05);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    z-index: 1;
 
     .logo {
       position: fixed;

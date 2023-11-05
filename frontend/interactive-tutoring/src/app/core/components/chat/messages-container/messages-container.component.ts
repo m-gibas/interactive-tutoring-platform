@@ -17,13 +17,13 @@ import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
 import { Message } from 'src/app/core/models/message.model';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { SocketService } from 'src/app/core/services/web-socket.service';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-messages-container',
   templateUrl: './messages-container.component.html',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule, ReactiveFormsModule, AsyncPipe]
+  imports: [NgIf, NgFor, NgClass, FormsModule, ReactiveFormsModule, AsyncPipe]
 })
 export class MessagesContainerComponent
   implements OnInit, OnDestroy, OnChanges

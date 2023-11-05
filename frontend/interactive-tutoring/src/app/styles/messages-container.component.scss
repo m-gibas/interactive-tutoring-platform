@@ -1,0 +1,22 @@
+app-messages-container {
+  .all-messages-container {
+    overflow: auto;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+
+    &__first-user {
+      align-self: flex-end;
+    }
+
+    &__second-user {
+      align-self: flex-start;
+    }
+  }
+
+  .send-message-container {
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+}

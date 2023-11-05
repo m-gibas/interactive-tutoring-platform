@@ -1,15 +1,26 @@
-<h2>messages array - title</h2>
-<ng-container *ngFor="let message of messages">
-  <div>
-    firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-    {{ message.secondUserUsername }} message: {{ message.message }}
-  </div>
-</ng-container>
+<div class="all-messages-container">
+  <h2>messages array - title</h2>
+  <ng-container *ngFor="let message of messages">
+    <div
+      class="{{
+        message.firstUserUsername === firstUsername
+          ? 'all-messages-container__first-user'
+          : 'all-messages-container__second-user'
+      }}"
+    >
+      {{ message.firstUserUsername }}:
+      <br />
+      {{ message.message }}
+    </div>
+  </ng-container>
+</div>
 
-<form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
-  <textarea [formControl]="newMessageForm.controls.message"></textarea>
-  <br />
-  <button type="submit" [disabled]="newMessageForm.invalid">
-    Send message
-  </button>
-</form>
+<div class="send-message-container">
+  <form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
+    <textarea [formControl]="newMessageForm.controls.message"></textarea>
+    <br />
+    <button type="submit" [disabled]="newMessageForm.invalid">
+      Send message
+    </button>
+  </form>
+</div>
