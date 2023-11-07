@@ -4,10 +4,23 @@
     <div *ngFor="let user of users$ | async">
       <ng-container *ngIf="user.username !== currentUser">
         <input
+          id="chat-with-{{ user.username }}"
           [(ngModel)]="selectedUsername"
           type="radio"
           [value]="user.username"
-        />Username: {{ user.username }}
+        />
+        <label for="chat-with-{{ user.username }}">
+          <i
+            class="bi"
+            [ngClass]="
+              selectedUsername === user.username
+                ? 'bi-person-fill'
+                : 'bi-person'
+            "
+          >
+          </i>
+          {{ user.username }}
+        </label>
       </ng-container>
     </div>
   </div>

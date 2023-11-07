@@ -1,10 +1,13 @@
 import {
+  AfterViewChecked,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  ViewChild,
   inject
 } from '@angular/core';
 import {
@@ -26,8 +29,10 @@ import { NgIf, NgFor, AsyncPipe, NgClass } from '@angular/common';
   imports: [NgIf, NgFor, NgClass, FormsModule, ReactiveFormsModule, AsyncPipe]
 })
 export class MessagesContainerComponent
-  implements OnInit, OnDestroy, OnChanges
+  implements OnInit, OnDestroy, OnChanges, AfterViewChecked
 {
+  @ViewChild('allMessages') private allMessagesContainer!: ElementRef;
+
   @Input() firstUsername = '';
   @Input() secondUsername = '';
 
@@ -54,9 +59,15 @@ export class MessagesContainerComponent
       this.setMessagesObservable().subscribe((res) => {
         this.messages = [...res];
 
+        this.scrollToBottom();
+
         this.cdr.detectChanges();
       })
     );
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
   }
 
   ngOnDestroy(): void {
@@ -130,5 +141,14 @@ export class MessagesContainerComponent
   ): string {
     const sortedUsernames: string[] = [firstUsername, secondUsername].sort();
     return sortedUsernames.join('_');
+  }
+
+  private scrollToBottom(): void {
+    try {
+      this.allMessagesContainer.nativeElement.scrollTop =
+        this.allMessagesContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

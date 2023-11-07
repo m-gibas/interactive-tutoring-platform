@@ -1,5 +1,7 @@
-<div class="all-messages-container">
-  <h2>messages array - title</h2>
+<div #allMessages class="all-messages-container">
+  <div class="username-title">
+    <h3>{{ secondUsername }}</h3>
+  </div>
   <ng-container *ngFor="let message of messages">
     <div
       class="{{
@@ -8,16 +10,27 @@
           : 'all-messages-container__second-user'
       }}"
     >
-      {{ message.firstUserUsername }}:
-      <br />
-      {{ message.message }}
+      <span>
+        {{ message.message }}
+      </span>
     </div>
   </ng-container>
 </div>
 
 <div class="send-message-container">
   <form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
-    <textarea [formControl]="newMessageForm.controls.message"></textarea>
+    <!-- dodać wysyłanie na enter, tu jakiś pomysł -->
+    <!-- (keydown.enter)="
+        newMessageForm.controls.message.value &&
+        !newMessageForm.controls.message.value.startsWith('\n')
+          ? sendMessage()
+          : $event.preventDefault()
+      " -->
+    <textarea
+      [formControl]="newMessageForm.controls.message"
+      required="true"
+      placeholder="Type something"
+    ></textarea>
     <br />
     <button type="submit" [disabled]="newMessageForm.invalid">
       Send message

@@ -4,14 +4,21 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { MessagesContainerComponent } from './messages-container/messages-container.component';
 import { FormsModule } from '@angular/forms';
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { NgFor, NgIf, AsyncPipe, NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   standalone: true,
-  imports: [NgFor, FormsModule, NgIf, MessagesContainerComponent, AsyncPipe]
+  imports: [
+    NgFor,
+    FormsModule,
+    NgIf,
+    NgClass,
+    MessagesContainerComponent,
+    AsyncPipe
+  ]
 })
 export class ChatComponent implements OnInit {
   private userService = inject(UserService);
