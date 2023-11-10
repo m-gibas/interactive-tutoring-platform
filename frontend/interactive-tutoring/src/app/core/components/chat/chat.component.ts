@@ -2,10 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
-import { MessagesIoSocketComponent } from './messages-io-socket/messages-io-socket.component';
 import { MessagesContainerComponent } from './messages-container/messages-container.component';
 import { FormsModule } from '@angular/forms';
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { NgFor, NgIf, AsyncPipe, NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -16,8 +15,8 @@ import { ActivatedRoute } from '@angular/router';
     NgFor,
     FormsModule,
     NgIf,
+    NgClass,
     MessagesContainerComponent,
-    MessagesIoSocketComponent,
     AsyncPipe
   ]
 })
@@ -25,11 +24,10 @@ export class ChatComponent implements OnInit {
   private userService = inject(UserService);
   private activeRoute = inject(ActivatedRoute);
 
-  selectedUsername = '';
-
   users$!: Observable<User[]>;
 
-  currentUser: string = '';
+  selectedUsername = '';
+  currentUser = '';
 
   ngOnInit(): void {
     this.users$ = this.userService.getUsers();

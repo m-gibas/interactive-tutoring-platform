@@ -2,7 +2,7 @@ app-login {
   .register-prompt {
     width: 100%;
     margin-top: 2.5rem;
-    padding: 0.55rem;
+    // padding: 0.55rem;
     border-top: solid 1px rgba(0, 0, 0, 0.2);
     //   posprawdzać te kolory jeszcze
     //   border: solid 1px rgba(0, 0, 0, 0.2);
@@ -12,22 +12,27 @@ app-login {
     //     inset 0 0 3px rgba(0, 0, 0, 0.15),
     //     0 0 2px rgba(0, 0, 0, 0.1);
     a {
+      text-decoration: none;
       display: block;
       margin: 0.3rem 0;
-      padding: 0.33rem;
-      border-radius: 8px;
+      border-radius: 5px;
       width: 100%;
       text-align: center;
-      background: #7d2ae8;
+      background: #8362b0;
       font-size: 1rem;
       letter-spacing: 0.05rem;
       color: rgba(255, 255, 255, 0.8);
       font-weight: 400;
       transition: color 0.3s ease-in-out;
+      padding: 10px 0;
 
       &:hover {
         color: #ffffff;
       }
+    }
+
+    p {
+      margin: 20px 0 20px 1rem;
     }
   }
 }

@@ -18,18 +18,6 @@ export class ChatService {
     });
   }
 
-  public getAllMessagesForFirstUser(
-    firstUsername: string,
-    secondUsername: string
-  ): Observable<Message[]> {
-    return this.http.get<Message[]>(
-      `${this.apiUrl}/message/all-for-first-user`,
-      {
-        params: { firstUsername, secondUsername }
-      }
-    );
-  }
-
   public getAllMessagesBetweenUsers(
     firstUsername: string,
     secondUsername: string

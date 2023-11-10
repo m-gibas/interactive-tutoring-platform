@@ -1,68 +1,46 @@
-<h2>messages$</h2>
-<ng-container *ngIf="messages$ | async as messages">
+<div #allMessages class="all-messages-container">
+  <div class="username-title">
+    <h3>{{ secondUsername }}</h3>
+  </div>
   <ng-container *ngFor="let message of messages">
-    <div>
-      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-      {{ message.secondUserUsername }} message: {{ message.message }}
+    <div
+      class="{{
+        message.firstUserUsername === firstUsername
+          ? 'all-messages-container__first-user-date'
+          : 'all-messages-container__second-user-date'
+      }}"
+    >
+      {{ message.date | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+    </div>
+    <div
+      class="{{
+        message.firstUserUsername === firstUsername
+          ? 'all-messages-container__first-user'
+          : 'all-messages-container__second-user'
+      }}"
+    >
+      <span>
+        {{ message.message }}
+      </span>
     </div>
   </ng-container>
-</ng-container>
-
-<h2>messages array</h2>
-<ng-container *ngFor="let message of messages">
-  <div>
-    firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-    {{ message.secondUserUsername }} message: {{ message.message }}
-  </div>
-</ng-container>
-
-<!-- <h2>webSocketService.messages</h2>
-<ng-container *ngFor="let message of webSocketService.messages">
-  <div>
-    firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-    {{ message.secondUserUsername }} message: {{ message.message }}
-  </div>
-</ng-container> -->
-
-<h2>liveData$</h2>
-<ng-container *ngIf="liveData$ | async as messages">
-  <ng-container *ngFor="let message of messages">
-    <div>
-      firstUserUsername: {{ message.firstUserUsername }} secondUserUsername:
-      {{ message.secondUserUsername }} message: {{ message.message }}
-    </div>
-  </ng-container>
-</ng-container>
-
-<form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
-  <textarea [formControl]="newMessageForm.controls.message"></textarea>
-  <br />
-  <button type="submit" [disabled]="newMessageForm.invalid">
-    Send message
-  </button>
-</form>
-
-<!-- <h1>TEST</h1>
-<div>
-  <h2>Chat Room</h2>
-  <input [(ngModel)]="room" placeholder="Room name" />
-  <button (click)="connect()">Connect</button>
-  <button (click)="disconnect()">Disconnect</button>
 </div>
 
-<div *ngIf="room">
-  <hr />
-  <h3>Room: {{ room }}</h3>
-  <div>
-    <input [(ngModel)]="message" placeholder="Type a message" />
-    <button (click)="sendMessageSocket()">Send</button>
-  </div>
-
-  <div>
-    <ul>
-      <li *ngFor="let msg of messages">{{ msg }}</li>
-    </ul>
-  </div>
+<div class="send-message-container">
+  <form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
+    <textarea
+      [formControl]="newMessageForm.controls.message"
+      required="true"
+      placeholder="Type something"
+      (keydown.enter)="
+        newMessageForm.controls.message.value.trim()
+          ? sendMessage()
+          : $event.preventDefault()
+      "
+    ></textarea>
+    <br />
+    <button type="submit" [disabled]="newMessageForm.invalid">
+      Send message
+    </button>
+  </form>
 </div>
-
-<h1>KONIEC TESTU</h1> -->

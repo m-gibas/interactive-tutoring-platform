@@ -3,4 +3,5 @@ export interface Message {
   secondUserUsername: string;
   message: string;
   room?: string;
+  date?: string;
 }
