@@ -1,0 +1,35 @@
+.announcement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+
+  input {
+    padding: 5px;
+    margin-right: 10px;
+  }
+
+  button {
+    padding: 5px 10px;
+  }
+}
+
+.add-announcement-button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.announcement-data {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}

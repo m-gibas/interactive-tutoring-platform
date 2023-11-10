@@ -2,6 +2,7 @@ package com.service.interactivetutoring;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.interactivetutoring.model.Announcement;
 import com.service.interactivetutoring.model.LoginUser;
 import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.UserService;
@@ -52,12 +53,11 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-//    wyszukiwanie pojedynczego uzytkownika
-//    @GetMapping("/{id}")
-//    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-//        User user = userService.findUserById(id);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
+    @GetMapping("/get-user")
+    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+        User user = userService.findUserByUsername(username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
 
     @PostMapping("/add")
@@ -127,4 +127,19 @@ public class UserController {
         }
         return new ResponseEntity<>(mapper.writeValueAsString(usernameObject), HttpStatus.OK);
     }
+
+    @GetMapping("/get-announcements")
+    public ResponseEntity<List<Announcement>> getAllAnnouncements(@RequestParam String username) {
+        List<Announcement> announcements = userService.findAllAnnouncements(username);
+
+        return new ResponseEntity<>(announcements, HttpStatus.OK);
+    }
+
+    @PostMapping("/add-announcement")
+    public ResponseEntity<Announcement> addAnnouncement(@Valid @RequestBody Announcement announcement) {
+        Announcement newAnnouncement = userService.addAnnouncement(announcement);
+
+        return new ResponseEntity<>(newAnnouncement, HttpStatus.CREATED);
+    }
+
 }

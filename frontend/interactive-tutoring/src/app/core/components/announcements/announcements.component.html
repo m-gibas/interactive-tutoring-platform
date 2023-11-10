@@ -1,0 +1,106 @@
+<!-- <app-add-announcement [currentUser]="currentUser"></app-add-announcement> -->
+
+<!--
+<h3>Announcements:</h3>
+<div *ngFor="let announcement of announcements$ | async">
+  <div class="announcement-data">
+    Date posted:
+    {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+    <br />
+    Posted by:{{ announcement.user }}
+    <br />
+    Subject: {{ announcement.subject }}
+    <br />
+    Description: {{ announcement.text }}
+    <br />
+    Price: {{ announcement.price }}
+  </div>
+</div>
+ -->
+
+<!-- druga próba - działa dobrze! -->
+<!-- 
+<div class="announcement-header">
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Search by name, subject, date, or price"
+      [(ngModel)]="searchTerm"
+    />
+    <button (click)="search()">Search</button>
+  </div>
+
+  <button class="add-announcement-button" (click)="openAddAnnouncementPage()">
+    Add Announcement
+  </button>
+</div>
+
+<h3>Announcements:</h3>
+
+<div *ngFor="let announcement of filteredAnnouncements$ | async">
+  <div class="announcement-data">
+    Date posted:
+    {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+    <br />
+    Posted by:{{ announcement.username }}
+    <br />
+    Subject: {{ announcement.subject }}
+    <br />
+    Description: {{ announcement.text }}
+    <br />
+    Price: {{ announcement.price }}
+  </div>
+</div> -->
+
+<div class="announcement-header">
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Search by name, subject, date, or price"
+      [(ngModel)]="searchTerm"
+    />
+    <button (click)="search()">Search</button>
+  </div>
+
+  <div class="sorting-options">
+    <label>Sort by Price:</label>
+    <input type="radio" name="priceSort" [(ngModel)]="priceSort" value="asc" />
+    Ascending
+    <input type="radio" name="priceSort" [(ngModel)]="priceSort" value="desc" />
+    Descending
+
+    <label>Sort by Subject:</label>
+    <select [(ngModel)]="subjectSort">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <button class="add-announcement-button" (click)="openAddAnnouncementPage()">
+    Add Announcement
+  </button>
+</div>
+
+<h3>Announcements:</h3>
+
+<div
+  *ngFor="
+    let announcement of filteredAnnouncements$
+      | async
+      | sortBy: { field: 'price', order: priceSort };
+    let i = index
+  "
+>
+  <div class="announcement-data">
+    Date posted:
+    {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+    <br />
+    Posted by:{{ announcement.username }}
+    <br />
+    Subject: {{ announcement.subject }}
+    <br />
+    Description: {{ announcement.text }}
+    <br />
+    Price: {{ announcement.price }}
+  </div>
+</div>
