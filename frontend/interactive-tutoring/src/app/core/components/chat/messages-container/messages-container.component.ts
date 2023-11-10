@@ -20,13 +20,21 @@ import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
 import { Message } from 'src/app/core/models/message.model';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { SocketService } from 'src/app/core/services/web-socket.service';
-import { NgIf, NgFor, AsyncPipe, NgClass } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, NgClass, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-messages-container',
   templateUrl: './messages-container.component.html',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, FormsModule, ReactiveFormsModule, AsyncPipe]
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    DatePipe
+  ]
 })
 export class MessagesContainerComponent
   implements OnInit, OnDestroy, OnChanges, AfterViewChecked
@@ -106,9 +114,7 @@ export class MessagesContainerComponent
     this.newMessageForm.reset();
 
     this.chatService.addMessage(newMessage).subscribe({
-      next: () => {
-        this.refreshToken$.next(undefined);
-      },
+      next: () => {},
       error: (err) => {
         alert(err.message);
       }

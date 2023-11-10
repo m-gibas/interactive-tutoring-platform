@@ -14,10 +14,14 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     List<Message> findAllByFirstUserUsernameAndSecondUserUsername(String firstUserUsername, String secondUserUsername);
 
-    @Query(value = "SELECT * FROM message m " +
+    @Query(value = "SELECT * FROM " +
+            "(SELECT * FROM message m " +
             "WHERE (m.first_user_username = :firstUserUsername AND m.second_user_username = :secondUserUsername) " +
             "OR (m.first_user_username = :secondUserUsername AND m.second_user_username = :firstUserUsername) " +
-            "ORDER BY m.date, m.id ASC", nativeQuery = true)
+            "ORDER BY m.date DESC, m.id DESC " +
+            "LIMIT 20 " +
+            ") T " +
+            "ORDER BY T.date, T.id ASC", nativeQuery = true)
     List<Message> getAllBetweenUsers(@Param("firstUserUsername") String firstUserUsername,
                                      @Param("secondUserUsername") String secondUserUsername);
 

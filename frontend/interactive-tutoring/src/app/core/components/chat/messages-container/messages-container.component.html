@@ -6,6 +6,15 @@
     <div
       class="{{
         message.firstUserUsername === firstUsername
+          ? 'all-messages-container__first-user-date'
+          : 'all-messages-container__second-user-date'
+      }}"
+    >
+      {{ message.date | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+    </div>
+    <div
+      class="{{
+        message.firstUserUsername === firstUsername
           ? 'all-messages-container__first-user'
           : 'all-messages-container__second-user'
       }}"
@@ -19,17 +28,15 @@
 
 <div class="send-message-container">
   <form (ngSubmit)="sendMessage()" [formGroup]="newMessageForm">
-    <!-- dodać wysyłanie na enter, tu jakiś pomysł -->
-    <!-- (keydown.enter)="
-        newMessageForm.controls.message.value &&
-        !newMessageForm.controls.message.value.startsWith('\n')
-          ? sendMessage()
-          : $event.preventDefault()
-      " -->
     <textarea
       [formControl]="newMessageForm.controls.message"
       required="true"
       placeholder="Type something"
+      (keydown.enter)="
+        newMessageForm.controls.message.value.trim()
+          ? sendMessage()
+          : $event.preventDefault()
+      "
     ></textarea>
     <br />
     <button type="submit" [disabled]="newMessageForm.invalid">
