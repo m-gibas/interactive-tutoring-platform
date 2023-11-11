@@ -28,20 +28,24 @@
 }
 
 .search-bar {
+  width: 180px;
+  height: 30px;
   display: flex;
   align-items: center;
+  margin-left: 10px;
 
   input {
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    border-radius: 3px;
     padding: 5px;
-    margin-right: 10px;
-  }
-
-  button {
-    padding: 5px 10px;
+    margin-top: 5px;
   }
 }
 
 .add-announcement-button {
+  margin: 0 15px 15px 0;
   padding: 10px;
   background-color: #4caf50;
   color: white;
@@ -70,4 +74,8 @@
   &__option {
     font-size: 0.8rem;
   }
+}
+
+.date-picker {
+  width: 180px;
 }

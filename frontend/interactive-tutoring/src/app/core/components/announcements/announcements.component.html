@@ -4,20 +4,19 @@
       <div class="search-bar">
         <input
           type="text"
-          placeholder="Search by name or date"
-          [(ngModel)]="searchTerm"
+          placeholder="Search by name"
+          [(ngModel)]="searchText"
           (ngModelChange)="search($event)"
         />
-        <!-- <button (click)="search()">Search</button> -->
       </div>
 
-      <mat-form-field>
+      <mat-form-field class="date-picker">
         <mat-label>Choose a date</mat-label>
         <input
           matInput
           [matDatepicker]="picker"
           (dateChange)="onDateChange($event)"
-          placeholder="MM/DD/YYYY"
+          placeholder="DD/MM/YYYY"
         />
         <mat-datepicker-toggle
           matIconSuffix
