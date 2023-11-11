@@ -1,0 +1,25 @@
+<mat-form-field appearance="fill" class="multi-select">
+  <mat-label style="color: black; font-size: 1.1rem">Select Subjects</mat-label>
+  <mat-select
+    multiple
+    [(ngModel)]="selectedSubjects"
+    (selectionChange)="selectedSubjectsOutput.emit(selectedSubjects)"
+  >
+    <mat-option
+      class="multi-select__option"
+      *ngFor="let subject of subjects"
+      [value]="subject"
+    >
+      {{ subject }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- <div class="selected-subjects">
+  <div
+    *ngFor="let selectedSubject of selectedSubjects"
+    class="selected-subject"
+  >
+    {{ selectedSubject }}
+  </div>
+</div> -->
