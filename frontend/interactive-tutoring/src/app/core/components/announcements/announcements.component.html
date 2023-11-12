@@ -45,7 +45,11 @@
       ></app-multi-select>
     </div>
 
-    <button class="add-announcement-button" (click)="openAddAnnouncementPage()">
+    <button
+      class="add-announcement-button"
+      (click)="openAddAnnouncementPage()"
+      [disabled]="currentUser.length === 0"
+    >
       Add Announcement
     </button>
   </div>
@@ -62,16 +66,24 @@
       "
     >
       <div class="announcement-data">
-        Date posted:
-        {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
-        <br />
-        Posted by:{{ announcement.username }}
-        <br />
-        Subject: {{ announcement.subject }}
-        <br />
-        Description: {{ announcement.text }}
-        <br />
-        Price: {{ announcement.price }} PLN
+        <p>
+          Date posted:
+          <br />
+          {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+        </p>
+        <p>
+          Posted by: <br />
+          {{ announcement.username }}
+        </p>
+        <p>
+          Subject: <br />
+          {{ announcement.subject }}
+        </p>
+        <p class="announcement-data__description">
+          Description: <br />
+          {{ announcement.text }}
+        </p>
+        <p>Price: <br />{{ announcement.price }} PLN</p>
       </div>
     </ng-container>
   </div>

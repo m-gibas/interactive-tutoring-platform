@@ -62,7 +62,9 @@ export class UserService {
     );
   }
 
-  public addAnnouncement(announcement: Announcement): Observable<Announcement> {
+  public addAnnouncement(
+    announcement: Omit<Announcement, 'datePosted'>
+  ): Observable<Announcement> {
     return this.http.post<Announcement>(
       `${this.apiUrl}/user/add-announcement`,
       announcement
