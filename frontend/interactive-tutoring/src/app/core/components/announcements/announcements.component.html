@@ -1,0 +1,90 @@
+<div class="announcements-container">
+  <div class="announcement-header">
+    <div class="sorting-options">
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Search by name"
+          [(ngModel)]="searchText"
+          (ngModelChange)="search($event)"
+        />
+      </div>
+
+      <mat-form-field class="date-picker">
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          (dateChange)="onDateChange($event)"
+          placeholder="DD/MM/YYYY"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="price-sort-type">
+        <mat-label style="color: black; font-size: 1.1rem"
+          >Sort by Price:</mat-label
+        >
+        <mat-select [(ngModel)]="priceSort">
+          <mat-option
+            *ngFor="let sortType of priceSortTypes"
+            [value]="sortType"
+            class="price-sort-type__option"
+          >
+            {{ sortType === 'asc' ? 'Ascending' : 'Descending' }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <app-multi-select
+        (selectedSubjectsOutput)="sortBySubject($event)"
+      ></app-multi-select>
+    </div>
+
+    <button
+      class="add-announcement-button"
+      (click)="openAddAnnouncementPage()"
+      [disabled]="currentUser.length === 0"
+    >
+      Add Announcement
+    </button>
+  </div>
+
+  <h3>Announcements:</h3>
+
+  <div class="all-announcements">
+    <ng-container
+      *ngFor="
+        let announcement of filteredAnnouncements$
+          | async
+          | sortBy: { field: 'price', order: priceSort };
+        let i = index
+      "
+    >
+      <div class="announcement-data">
+        <p>
+          Date posted:
+          <br />
+          {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+        </p>
+        <p>
+          Posted by: <br />
+          {{ announcement.username }}
+        </p>
+        <p>
+          Subject: <br />
+          {{ announcement.subject }}
+        </p>
+        <p class="announcement-data__description">
+          Description: <br />
+          {{ announcement.text }}
+        </p>
+        <p>Price: <br />{{ announcement.price }} PLN</p>
+      </div>
+    </ng-container>
+  </div>
+</div>

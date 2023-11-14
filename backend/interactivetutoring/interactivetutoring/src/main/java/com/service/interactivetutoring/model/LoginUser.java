@@ -1,7 +1,5 @@
 package com.service.interactivetutoring.model;
 
-import jakarta.persistence.Entity;
-
 public class LoginUser {
     private String username;
     private String password;

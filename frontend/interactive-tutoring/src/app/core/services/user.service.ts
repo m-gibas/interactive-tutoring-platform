@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginUser, User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
+import { Announcement } from '../models/announcement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,12 @@ export class UserService {
 
   public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/user/all`);
+  }
+
+  public getUser(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/user/get-user`, {
+      params: { username }
+    });
   }
 
   public addUser(user: User): Observable<User> {
@@ -43,6 +50,24 @@ export class UserService {
       {
         withCredentials: true
       }
+    );
+  }
+
+  public getAnnouncements(username: string): Observable<Announcement[]> {
+    return this.http.get<Announcement[]>(
+      `${this.apiUrl}/user/get-announcements`,
+      {
+        params: { username }
+      }
+    );
+  }
+
+  public addAnnouncement(
+    announcement: Omit<Announcement, 'datePosted'>
+  ): Observable<Announcement> {
+    return this.http.post<Announcement>(
+      `${this.apiUrl}/user/add-announcement`,
+      announcement
     );
   }
 }

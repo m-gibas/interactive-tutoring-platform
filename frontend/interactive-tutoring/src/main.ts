@@ -10,16 +10,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { SocketService } from './app/core/services/web-socket.service';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
-      BrowserModule,
-      AppRoutingModule,
-      FormsModule,
-      ReactiveFormsModule
-    ),
+    importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule),
     SocketService,
-    provideHttpClient(withInterceptorsFromDi())
-  ]
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations()
+]
 }).catch((err) => console.error(err));

@@ -1,0 +1,75 @@
+// app-multi-select {
+// .multi-select {
+//   width: 180px;
+//   font-size: 0.8rem;
+
+//   &__option {
+//     font-size: 0.8rem;
+//   }
+// }
+
+// .selected-subjects {
+//   display: flex;
+//   flex-wrap: wrap;
+//   margin-top: 10px;
+//   font-size: 0.8rem;
+
+//   .selected-subject {
+//     background-color: #e0e0e0;
+//     padding: 5px;
+//     margin: 5px;
+//     border-radius: 5px;
+//   }
+// }
+// }
+
+// mat-form-field {
+//   &.mat-mdc-form-field multi-select {
+//     background-color: red;
+//   }
+// }
+
+// .mat-select {
+//   .multi-select {
+//     /* Custom styles for the mat-select with class 'multi-select' */
+//     font-size: 14px; /* Set your desired font size */
+//     background: #e0e0e0; /* Set your desired background color */
+//   }
+// }
+
+// /* If you want to style the options within the mat-select */
+// .mat-option.multi-select {
+//   /* Custom styles for the mat-option with class 'multi-select' */
+//   font-size: 12px; /* Set your desired font size for options */
+//   background: #f0f0f0; /* Set your desired background color for options */
+// }
+
+// :host {
+//   .mat-form-field.multi-select {
+//     /* Custom styles for the mat-form-field with class 'multi-select' */
+//   }
+
+//   .mat-select.multi-select {
+//     /* Custom styles for the mat-select with class 'multi-select' */
+//     font-size: 14px; /* Set your desired font size */
+//     background-color: #e0e0e0; /* Set your desired background color */
+//   }
+
+//   .mat-option.multi-select {
+//     /* Custom styles for the mat-option with class 'multi-select' */
+//     font-size: 12px; /* Set your desired font size for options */
+//     background-color: #f0f0f0; /* Set your desired background color for options */
+//   }
+// }
+
+// .mat-mdc-form-field-type-mat-select
+//   .mat-form-field-appearance-fill
+//   .mat-primary {
+//   background-color: wheat;
+// }
+
+// .selected-subjects {
+//   .mat-select-panel {
+//     background: red;
+//   }
+// }

@@ -1,11 +1,11 @@
 package com.service.interactivetutoring.service;
 
-import com.service.interactivetutoring.exceptions.CustomErrorResponse;
 import com.service.interactivetutoring.exceptions.ValueTakenException;
+import com.service.interactivetutoring.model.Announcement;
 import com.service.interactivetutoring.model.User;
+import com.service.interactivetutoring.repository.AnnouncementRepository;
 import com.service.interactivetutoring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +14,13 @@ import java.util.List;
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final AnnouncementRepository announcementRepository;
 
 //    @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AnnouncementRepository announcementRepository) {
         this.userRepository = userRepository;
+        this.announcementRepository = announcementRepository;
     }
 
     public User addUser(User user) {
@@ -52,4 +55,11 @@ public class UserService {
         userRepository.deleteUserById(id);
     }
 
+    public List<Announcement> findAllAnnouncements(String username) {
+        return announcementRepository.findAllByUsername(username);
+    }
+
+    public Announcement addAnnouncement(Announcement announcement) {
+        return announcementRepository.save(announcement);
+    }
 }

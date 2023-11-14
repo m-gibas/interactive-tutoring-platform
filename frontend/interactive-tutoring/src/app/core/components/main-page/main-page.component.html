@@ -4,6 +4,12 @@
     <nav>
       <a routerLink="/">Main page</a>
       <a
+        routerLink="/announcements"
+        [queryParams]="{ currentUser }"
+        queryParamsHandling="merge"
+        >Announcements</a
+      >
+      <a
         routerLink="/chat"
         [queryParams]="{ currentUser }"
         queryParamsHandling="merge"
@@ -16,6 +22,7 @@
   <ng-template #navForGuest>
     <nav>
       <a routerLink="/">Main page</a>
+      <a routerLink="/announcements">Announcements</a>
       <a routerLink="/login">Sign in</a>
     </nav>
   </ng-template>
