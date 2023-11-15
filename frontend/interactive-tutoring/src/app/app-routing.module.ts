@@ -7,16 +7,18 @@ import { RegisterComponent } from './core/components/register/register.component
 import { LogoutComponent } from './core/components/logout/logout.component';
 import { AnnouncementsComponent } from './core/components/announcements/announcements.component';
 import { AddAnnouncementComponent } from './core/components/announcements/add-announcement/add-announcement.component';
+import { UserProfileComponent } from './core/components/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'user/:username', component: UserProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'announcements', component: AnnouncementsComponent },
-  { path: 'add-announcement', component: AddAnnouncementComponent },
-  { path: '**', redirectTo: '/', pathMatch: 'full' }
+  { path: 'add-announcement', component: AddAnnouncementComponent }
+  // { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({

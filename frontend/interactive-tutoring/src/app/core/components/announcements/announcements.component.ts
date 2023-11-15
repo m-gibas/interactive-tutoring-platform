@@ -25,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-announcements',
@@ -44,7 +45,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTooltipModule
   ]
 })
 export class AnnouncementsComponent implements OnInit {
@@ -72,7 +74,7 @@ export class AnnouncementsComponent implements OnInit {
     this.activeRoute.queryParams.subscribe((queryParams) => {
       this.currentUser = queryParams['currentUser'] ?? '';
 
-      this.announcements$ = this.userService.getAnnouncements(this.currentUser);
+      this.announcements$ = this.userService.getAnnouncements();
 
       this.filteredAnnouncements$ = combineLatest([
         this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()),
@@ -105,9 +107,13 @@ export class AnnouncementsComponent implements OnInit {
                 filteredAnnouncements = filteredAnnouncements.filter(
                   (announcement) =>
                     this.datePipe.transform(
-                      announcement.datePosted,
-                      'd.MM.yyyy'
-                    ) === this.datePipe.transform(dateFilter, 'd.MM.yyyy')
+                      announcement.datePosted.replace(' ', 'T'),
+                      'shortDate'
+                    ) ===
+                    this.datePipe.transform(
+                      dateFilter.replace(' ', 'T'),
+                      'shortDate'
+                    )
                 );
               }
 
@@ -134,8 +140,13 @@ export class AnnouncementsComponent implements OnInit {
   }
 
   onDateChange(e: any) {
+    // console.log('e.value', e.value);
+    // console.log(
+    //   'this.datePipe.transform',
+    //   this.datePipe.transform(e.value, 'd.MM.yyyy')
+    // );
     this.dateFilterSubject.next(
-      this.datePipe.transform(e.value, 'd.MM.yyyy') || ''
+      this.datePipe.transform(e.value, 'shortDate') || ''
     );
   }
 }

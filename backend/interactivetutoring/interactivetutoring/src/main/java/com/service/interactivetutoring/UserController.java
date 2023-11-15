@@ -129,8 +129,15 @@ public class UserController {
     }
 
     @GetMapping("/get-announcements")
-    public ResponseEntity<List<Announcement>> getAllAnnouncements(@RequestParam String username) {
-        List<Announcement> announcements = userService.findAllAnnouncements(username);
+    public ResponseEntity<List<Announcement>> getAllAnnouncements() {
+        List<Announcement> announcements = userService.findAllAnnouncements();
+
+        return new ResponseEntity<>(announcements, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-announcements-for-user")
+    public ResponseEntity<List<Announcement>> getAllAnnouncementsForUser(@RequestParam String username) {
+        List<Announcement> announcements = userService.findAllAnnouncementsForUser(username);
 
         return new ResponseEntity<>(announcements, HttpStatus.OK);
     }

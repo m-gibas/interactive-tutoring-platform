@@ -1,6 +1,7 @@
 package com.service.interactivetutoring.service;
 
 import com.service.interactivetutoring.model.Message;
+import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,11 @@ public class MessageService {
 
     public MessageService(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
+    }
+
+
+    public List<String> findRecentChatters(String username) {
+        return messageRepository.findRecentChatters(username);
     }
 
     public List<Message> findAllMessagesByUsername(String username) {

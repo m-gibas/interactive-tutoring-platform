@@ -53,9 +53,15 @@ export class UserService {
     );
   }
 
-  public getAnnouncements(username: string): Observable<Announcement[]> {
+  public getAnnouncements(): Observable<Announcement[]> {
     return this.http.get<Announcement[]>(
-      `${this.apiUrl}/user/get-announcements`,
+      `${this.apiUrl}/user/get-announcements`
+    );
+  }
+
+  public getAnnouncementsForUser(username: string): Observable<Announcement[]> {
+    return this.http.get<Announcement[]>(
+      `${this.apiUrl}/user/get-announcements-for-user`,
       {
         params: { username }
       }
