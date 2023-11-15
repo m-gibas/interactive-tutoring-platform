@@ -49,6 +49,11 @@
       class="add-announcement-button"
       (click)="openAddAnnouncementPage()"
       [disabled]="currentUser.length === 0"
+      [matTooltip]="
+        currentUser.length === 0
+          ? 'You have to be signed in to add announcement!'
+          : ''
+      "
     >
       Add Announcement
     </button>
@@ -73,7 +78,12 @@
         </p>
         <p>
           Posted by: <br />
-          {{ announcement.username }}
+          <a
+            class="announcement-data__user-profile"
+            [routerLink]="['/user', announcement.username]"
+            matTooltip="Go to {{ announcement.username }} profile"
+            >{{ announcement.username }}</a
+          >
         </p>
         <p>
           Subject: <br />
@@ -83,7 +93,7 @@
           Description: <br />
           {{ announcement.text }}
         </p>
-        <p>Price: <br />{{ announcement.price }} PLN</p>
+        <p>Price: <br />{{ announcement.price }} PLN <br />per lesson</p>
       </div>
     </ng-container>
   </div>

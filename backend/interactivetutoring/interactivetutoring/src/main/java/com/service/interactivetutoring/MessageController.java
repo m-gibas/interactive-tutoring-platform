@@ -1,6 +1,7 @@
 package com.service.interactivetutoring;
 
 import com.service.interactivetutoring.model.Message;
+import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,13 @@ public class MessageController {
 
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
+    }
+
+
+    @GetMapping("/recent-chatters")
+    public ResponseEntity<List<String>> getRecentChatters(@RequestParam String firstUsername) {
+        List<String> recentUsers = messageService.findRecentChatters(firstUsername);
+        return new ResponseEntity<>(recentUsers, HttpStatus.OK);
     }
 
     @GetMapping("/all")

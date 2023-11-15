@@ -55,9 +55,14 @@ public class UserService {
         userRepository.deleteUserById(id);
     }
 
-    public List<Announcement> findAllAnnouncements(String username) {
+    public List<Announcement> findAllAnnouncements() {
+        return announcementRepository.findAll();
+    }
+
+    public List<Announcement> findAllAnnouncementsForUser(String username) {
         return announcementRepository.findAllByUsername(username);
     }
+
 
     public Announcement addAnnouncement(Announcement announcement) {
         return announcementRepository.save(announcement);

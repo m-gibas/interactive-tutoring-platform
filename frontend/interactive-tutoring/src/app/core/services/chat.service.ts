@@ -18,6 +18,12 @@ export class ChatService {
     });
   }
 
+  public getRecentChatters(firstUsername: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/message/recent-chatters`, {
+      params: { firstUsername }
+    });
+  }
+
   public getAllMessagesBetweenUsers(
     firstUsername: string,
     secondUsername: string

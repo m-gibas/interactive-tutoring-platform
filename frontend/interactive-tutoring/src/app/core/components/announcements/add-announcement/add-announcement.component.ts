@@ -11,6 +11,7 @@ import {
   Validators
 } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-announcement',
@@ -19,14 +20,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './add-announcement.component.html'
 })
 export class AddAnnouncementComponent implements OnInit {
-  @Input() currentUser = '';
-
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
+  private activeRoute = inject(ActivatedRoute);
 
   private userData!: User;
   subjects = Object.values(Subjects);
+  currentUser = '';
 
   announcementForm = this.fb.nonNullable.group({
     subject: ['', Validators.required],
@@ -35,6 +36,9 @@ export class AddAnnouncementComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.activeRoute.queryParams.pipe(take(1)).subscribe((queryParams) => {
+      this.currentUser = queryParams['currentUser'] ?? '';
+    });
     // this.newAnnouncement = {
     //   username: this.currentUser,
     //   subject: Subjects.Programming,
