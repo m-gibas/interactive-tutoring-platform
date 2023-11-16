@@ -8,8 +8,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-multi-select',
   standalone: true,
   imports: [CommonModule, MatSelectModule, FormsModule],
-  templateUrl: './multi-select.component.html',
-  styleUrls: ['./multi-select.component.scss']
+  templateUrl: './multi-select.component.html'
 })
 export class MultiSelectComponent {
   @Output() selectedSubjectsOutput = new EventEmitter<Subjects[]>();

@@ -124,6 +124,18 @@
     grid-template-columns: 3fr 3fr 3fr 9fr 2fr;
     gap: 0.35rem;
 
+    &__for-current-user {
+      grid-template-columns: 3fr 3fr 3fr 8fr 3fr 2fr;
+    }
+
+    &__taken {
+      background: #d5d4d4;
+      color: #000;
+    }
+
+    &__available {
+    }
+
     &:hover {
       background: #e7e6e6;
       // cursor: pointer;

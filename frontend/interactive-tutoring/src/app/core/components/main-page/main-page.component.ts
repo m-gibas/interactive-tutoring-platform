@@ -20,15 +20,15 @@ export class MainPageComponent implements OnInit {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((res) => {
-        if (location.pathname === '/') {
-          this.userService
-            .getCurrentUsername()
-            .pipe(take(1))
-            .subscribe((user) => {
-              this.currentUser = user.username;
-              // return true;
-            });
-        }
+        // if (location.pathname === '/') {
+        this.userService
+          .getCurrentUsername()
+          .pipe(take(1))
+          .subscribe((user) => {
+            this.currentUser = user.username;
+            // return true;
+          });
+        // }
       });
   }
 }

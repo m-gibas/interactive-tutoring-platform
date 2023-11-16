@@ -63,8 +63,15 @@ public class UserService {
         return announcementRepository.findAllByUsername(username);
     }
 
-
     public Announcement addAnnouncement(Announcement announcement) {
         return announcementRepository.save(announcement);
+    }
+
+    public void changeAnnouncementAvailability(Long announcementId, boolean newAvailability) {
+        Announcement announcement = announcementRepository.findById(announcementId)
+                .orElseThrow(() -> new IllegalArgumentException("Announcement not found with id: " + announcementId));
+
+        announcement.setIsTaken(newAvailability);
+        announcementRepository.save(announcement);
     }
 }

@@ -70,7 +70,14 @@
         let i = index
       "
     >
-      <div class="announcement-data">
+      <div
+        [class]="
+          announcement.isTaken
+            ? 'announcement-data announcement-data__taken'
+            : 'announcement-data announcement-data__available'
+        "
+        [matTooltip]="announcement.isTaken ? 'Announcement is taken!' : ''"
+      >
         <p>
           Date posted:
           <br />
