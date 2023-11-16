@@ -1,4 +1,66 @@
-<div>
-  <h2>User Profile</h2>
-  <p>Username: {{ username }}</p>
+<div class="container">
+  <h2>{{ username }} profile</h2>
+
+  <div *ngIf="isCurrentUser">
+    <a
+      class="announcement-data__user-profile"
+      [routerLink]="['/edit-user-profile', currentUser]"
+      >Edit profile</a
+    >
+  </div>
+
+  <!-- <p>{{userData.}}</p> -->
+  <!-- imie nazwisko -->
+  <!-- opis itd -->
+
+  <div
+    *ngIf="userAnnouncements && userAnnouncements.length > 0"
+    class="all-announcements"
+  >
+    <h3>My announcements:</h3>
+    <ng-container *ngFor="let announcement of userAnnouncements">
+      <div
+        [ngClass]="[
+          isCurrentUser
+            ? 'announcement-data announcement-data__for-current-user'
+            : 'announcement-data',
+          announcement.isTaken
+            ? 'announcement-data__taken'
+            : 'announcement-data__available'
+        ]"
+        [matTooltip]="announcement.isTaken ? 'Announcement is taken!' : ''"
+      >
+        <p>
+          Date posted:
+          <br />
+          {{ announcement.datePosted | date: "d.MM.yyyy 'at' H:mm" : 'pl' }}
+        </p>
+        <p>
+          Posted by: <br />
+          {{ announcement.username }}
+        </p>
+        <p>
+          Subject: <br />
+          {{ announcement.subject }}
+        </p>
+        <p class="announcement-data__description">
+          Description: <br />
+          {{ announcement.text }}
+        </p>
+        <p>Price: <br />{{ announcement.price }} PLN <br />per lesson</p>
+        <button
+          class="availability-button"
+          *ngIf="isCurrentUser"
+          (click)="
+            changeAnnouncementAvailability(
+              announcement.id,
+              announcement.isTaken
+            )
+          "
+        >
+          {{ announcement.isTaken ? 'Mark as available' : 'Mark as taken' }}
+        </button>
+      </div>
+    </ng-container>
+  </div>
 </div>

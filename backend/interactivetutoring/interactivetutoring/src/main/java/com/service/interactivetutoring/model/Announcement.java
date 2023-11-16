@@ -37,6 +37,8 @@ public class Announcement {
     @Column(name = "date_posted", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date datePosted;
 
+    private boolean IsTaken;
+
     public Announcement() {
     }
 
@@ -93,5 +95,13 @@ public class Announcement {
 
     public void setDatePosted(Date datePosted) {
         this.datePosted = datePosted;
+    }
+
+    public boolean getIsTaken() {
+        return IsTaken;
+    }
+
+    public void setIsTaken(boolean isTaken) {
+        IsTaken = isTaken;
     }
 }

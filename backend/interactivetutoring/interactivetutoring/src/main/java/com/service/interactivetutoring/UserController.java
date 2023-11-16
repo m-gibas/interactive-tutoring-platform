@@ -149,4 +149,18 @@ public class UserController {
         return new ResponseEntity<>(newAnnouncement, HttpStatus.CREATED);
     }
 
+    @PatchMapping("/change-announcement-availability")
+//    public ResponseEntity<?> changeAnnouncementAvailability(@RequestParam Long id, @RequestParam boolean newAvailability) {
+    public ResponseEntity<?> changeAnnouncementAvailability(@RequestBody Map<String, Object> payload) {
+        Long id = ((Number) payload.get("id")).longValue();
+        boolean newAvailability = (Boolean) payload.get("newAvailability");
+
+        System.out.println("id: " + id + "  boolean: " + newAvailability);
+
+        userService.changeAnnouncementAvailability(id, newAvailability);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
 }

@@ -1,9 +1,11 @@
 export interface Announcement {
+  id: number;
   username: string;
   subject: string;
   text: string;
   price: number;
   datePosted: string;
+  isTaken: boolean;
 }
 
 export enum Subjects {

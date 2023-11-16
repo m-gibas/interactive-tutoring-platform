@@ -59,6 +59,19 @@ export class UserService {
     );
   }
 
+  public changeAnnouncementAvailability(
+    id: number,
+    newAvailability: boolean
+  ): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiUrl}/user/change-announcement-availability`,
+      {
+        id: id,
+        newAvailability: newAvailability
+      }
+    );
+  }
+
   public getAnnouncementsForUser(username: string): Observable<Announcement[]> {
     return this.http.get<Announcement[]>(
       `${this.apiUrl}/user/get-announcements-for-user`,
