@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.interactivetutoring.model.Announcement;
 import com.service.interactivetutoring.model.LoginUser;
 import com.service.interactivetutoring.model.User;
+import com.service.interactivetutoring.model.UserProfile;
 import com.service.interactivetutoring.service.UserService;
 import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.http.HttpSession;
@@ -128,6 +129,9 @@ public class UserController {
         return new ResponseEntity<>(mapper.writeValueAsString(usernameObject), HttpStatus.OK);
     }
 
+
+//  Announcements
+
     @GetMapping("/get-announcements")
     public ResponseEntity<List<Announcement>> getAllAnnouncements() {
         List<Announcement> announcements = userService.findAllAnnouncements();
@@ -161,6 +165,24 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+
+//    User Profiles
+
+
+    @GetMapping("/get-user-profile")
+    public ResponseEntity<UserProfile> getUserProfile(@RequestParam String username) {
+        UserProfile userProfile = userService.findUserProfile(username);
+
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/update-profile")
+    public ResponseEntity<UserProfile> updateUserProfile(@RequestBody UserProfile userProfile) {
+        UserProfile updatedUserProfile = userService.updateUserProfile(userProfile);
+        return new ResponseEntity<>(updatedUserProfile, HttpStatus.OK);
     }
 
 }

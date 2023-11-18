@@ -31,13 +31,13 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "FROM ( " +
             "    SELECT first_user_username AS username, date " +
             "    FROM message " +
-            "    WHERE second_user_username = 'maks1' " +
+            "    WHERE second_user_username = :firstUserUsername " +
             "    UNION " +
             "    SELECT second_user_username AS username, date " +
             "    FROM message " +
-            "    WHERE first_user_username = 'maks1' " +
+            "    WHERE first_user_username = :firstUserUsername " +
             ") AS merged_usernames " +
-            "ORDER BY date;",
+            "ORDER BY date DESC;",
             nativeQuery = true)
     List<String> findRecentChatters(@Param("firstUserUsername") String firstUserUsername);
 

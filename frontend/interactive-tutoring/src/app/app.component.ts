@@ -13,5 +13,5 @@ import { MainPageComponent } from './core/components/main-page/main-page.compone
 export class AppComponent {
   valueChanged: any;
 
-  title = 'chat';
+  title = 'Tutoring platform';
 }

@@ -91,21 +91,8 @@
   width: 180px;
 }
 
-// .all-announcements {
-//   height: 100%;
-//   overflow: auto;
-// }
-
-// .announcement-data {
-//   border: 1px solid #ddd;
-//   padding: 10px;
-//   margin-bottom: 10px;
-// }
-
 .all-announcements {
-  height: calc(
-    100% - 120px
-  ); /* Adjust the value to leave space for the header */
+  height: calc(100% - 120px);
   overflow: auto;
   padding: 15px;
 
@@ -142,9 +129,6 @@
     }
 
     &__description {
-      // justify-self: center;
-      // flex: 1; /* Take up remaining space */
-      // margin-left: 15px; /* Add some spacing between description and other content */
       overflow: auto;
     }
 

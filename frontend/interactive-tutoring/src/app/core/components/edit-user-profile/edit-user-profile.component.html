@@ -1,6 +1,6 @@
 <div class="edit-user-profile-container">
   <div class="form-header">
-    <h2>Edit User Profile</h2>
+    <h2>Edit {{ username }} profile!</h2>
   </div>
 
   <form [formGroup]="userProfileForm" (ngSubmit)="updateUserProfile()">
@@ -10,11 +10,15 @@
     <label for="surname">Surname:</label>
     <input type="text" id="surname" formControlName="surname" />
 
-    <label for="about">About:</label>
+    <label for="about">About me:</label>
     <textarea id="about" formControlName="about" rows="5"></textarea>
 
     <div class="form-footer">
-      <button type="submit" [disabled]="userProfileForm.invalid">
+      <button
+        type="submit"
+        [disabled]="userProfileForm.invalid || !isCurrentUser"
+        [matTooltip]="!isCurrentUser ? 'It\'s not your profile!' : ''"
+      >
         Update Profile
       </button>
     </div>

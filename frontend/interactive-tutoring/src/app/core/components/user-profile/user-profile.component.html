@@ -3,19 +3,34 @@
 
   <div *ngIf="isCurrentUser">
     <a
-      class="announcement-data__user-profile"
+      class="edit-profile-button"
       [routerLink]="['/edit-user-profile', currentUser]"
       >Edit profile</a
     >
   </div>
 
-  <!-- <p>{{userData.}}</p> -->
-  <!-- imie nazwisko -->
-  <!-- opis itd -->
+  <!-- userProfile.name -->
+  <!-- userProfile.surname -->
+  <!-- userProfile.about -->
+
+  <div class="user-profile-section">
+    <p class="user-profile-section__label">Name:</p>
+    <p class="user-profile-section__value">{{ userProfile.name }}</p>
+  </div>
+
+  <div class="user-profile-section">
+    <p class="user-profile-section__label">Surname:</p>
+    <p class="user-profile-section__value">{{ userProfile.surname }}</p>
+  </div>
+
+  <div class="user-profile-section">
+    <p class="user-profile-section__label">About Me:</p>
+    <p class="user-profile-section__value">{{ userProfile.about }}</p>
+  </div>
 
   <div
     *ngIf="userAnnouncements && userAnnouncements.length > 0"
-    class="all-announcements"
+    class="all-announcements container__announcements"
   >
     <h3>My announcements:</h3>
     <ng-container *ngFor="let announcement of userAnnouncements">

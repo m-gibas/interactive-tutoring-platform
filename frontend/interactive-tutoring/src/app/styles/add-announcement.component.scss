@@ -1,71 +1,3 @@
-// .add-new-announcement-container {
-//   position: fixed;
-//   border: 1px solid #e1e1e1;
-//   width: 50vw;
-//   height: 65vh;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// }
-
-// .add-new-announcement-container {
-//   position: fixed;
-//   width: 50vw;
-//   height: 65vh;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   background: #fff;
-//   padding: 1.5rem;
-//   border-radius: 0.5rem;
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
-
-//   form {
-//     label {
-//       display: block;
-//       margin-bottom: 0.5rem;
-//       font-weight: 600;
-//     }
-
-//     select,
-//     textarea,
-//     input {
-//       width: 100%;
-//       padding: 0.5rem;
-//       margin-bottom: 1rem;
-//       border: 1px solid #ccc;
-//       border-radius: 0.25rem;
-//       outline: none;
-//     }
-
-//     button {
-//       cursor: pointer;
-//       background: #8362b0;
-//       width: 100%;
-//       padding: 10px 0;
-//       border-radius: 5px;
-//       letter-spacing: 0.05rem;
-//       border: none;
-//       color: rgb(215, 212, 212);
-//       font-size: 1rem;
-//       font-weight: 600;
-//       transition: all 0.15s ease-in-out;
-
-//       &:hover {
-//         background: #7d2ae8;
-//         color: white;
-//       }
-
-//       &:disabled {
-//         cursor: default;
-//         background: rgba(51, 51, 51, 0.65);
-//         color: rgb(202, 202, 202);
-//         font-weight: 500;
-//       }
-//     }
-//   }
-// }
-
 .add-new-announcement-container {
   position: fixed;
   width: 50vw;
@@ -107,7 +39,7 @@
     }
 
     textarea {
-      resize: vertical; /* Allow vertical resizing of the textarea */
+      resize: vertical;
     }
 
     .form-footer {
