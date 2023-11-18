@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { LoginUser } from '../../models/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';

@@ -3,12 +3,15 @@ package com.service.interactivetutoring.service;
 import com.service.interactivetutoring.exceptions.ValueTakenException;
 import com.service.interactivetutoring.model.Announcement;
 import com.service.interactivetutoring.model.User;
+import com.service.interactivetutoring.model.UserProfile;
 import com.service.interactivetutoring.repository.AnnouncementRepository;
+import com.service.interactivetutoring.repository.UserProfileRepository;
 import com.service.interactivetutoring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -16,11 +19,14 @@ public class UserService {
     private final UserRepository userRepository;
     @Autowired
     private final AnnouncementRepository announcementRepository;
+    @Autowired
+    private final UserProfileRepository userProfileRepository;
 
 //    @Autowired
-    public UserService(UserRepository userRepository, AnnouncementRepository announcementRepository) {
+    public UserService(UserRepository userRepository, AnnouncementRepository announcementRepository, UserProfileRepository userProfileRepository) {
         this.userRepository = userRepository;
         this.announcementRepository = announcementRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     public User addUser(User user) {
@@ -55,6 +61,8 @@ public class UserService {
         userRepository.deleteUserById(id);
     }
 
+//    Announcements
+
     public List<Announcement> findAllAnnouncements() {
         return announcementRepository.findAll();
     }
@@ -74,4 +82,27 @@ public class UserService {
         announcement.setIsTaken(newAvailability);
         announcementRepository.save(announcement);
     }
+
+//    User Profiles
+    public UserProfile findUserProfile(String username) {
+        return userProfileRepository.findByUsername(username);
+    }
+
+    public UserProfile updateUserProfile(UserProfile userProfile) {
+//        return userProfileRepository.save(userProfile);
+        Optional<UserProfile> existingProfileOptional = Optional.ofNullable(userProfileRepository.findByUsername(userProfile.getUsername()));
+
+        if (existingProfileOptional.isPresent()) {
+            // Update the existing profile if it exists
+            UserProfile existingProfile = existingProfileOptional.get();
+            existingProfile.setName(userProfile.getName());
+            existingProfile.setSurname(userProfile.getSurname());
+            existingProfile.setAbout(userProfile.getAbout());
+            return userProfileRepository.save(existingProfile);
+        } else {
+            // Create a new profile if it doesn't exist
+            return userProfileRepository.save(userProfile);
+        }
+    }
+
 }

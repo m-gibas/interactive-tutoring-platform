@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { switchMap, take } from 'rxjs';
+import { Subscription, switchMap, take } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserProfile } from '../../models/user-profile.model';
 import { Announcement } from '../../models/announcement.model';
@@ -22,73 +22,68 @@ export class UserProfileComponent implements OnInit {
   currentUser!: string;
   userData!: User;
   userAnnouncements: Announcement[] = [];
-  UserProfile!: UserProfile;
+  userProfile: UserProfile = {
+    username: '',
+    name: '',
+    surname: '',
+    about: ''
+  };
+  private routeSub!: Subscription;
 
   get isCurrentUser(): boolean {
     return this.username === this.currentUser;
   }
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username') ?? '';
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.username = params['username'];
+      this.getData();
+    });
+  }
 
-    //  this.userService
-    //   ?.getUser(this.currentUser)
-    //   .pipe(
-    //     switchMap((userData) => {
-    //       this.userData = userData;
-    //       return this.userService.addAnnouncement(this.newAnnouncement);
-    //     })
-    //   )
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+  }
 
+  private getData(): void {
     this.userService
       ?.getAnnouncementsForUser(this.username)
       .pipe(take(1))
       .subscribe((userAnnouncements) => {
         this.userAnnouncements = userAnnouncements;
-
-        console.log(this.userAnnouncements);
       });
 
     this.userService
       .getCurrentUsername()
-      .pipe(
-        // take(1),
-        switchMap((user) => {
-          this.currentUser = user.username;
-          return this.userService.getUser(this.currentUser);
-        })
-      )
-      .subscribe((userData) => {
-        this.userData = userData;
-
-        console.log('this.currentUser', this.currentUser);
-        console.log('this.userData', this.userData);
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.currentUser = user.username;
       });
 
-    // this.userService
-    // ?.getUser(this.currentUser)
-    // .pipe(
-    //   switchMap((userData) => {
-    //     this.userData = userData;
-    //     return this.userService.addAnnouncement(this.newAnnouncement);
-    //   })
-    // )
-
-    // this.userService
-    //   .getCurrentUsername()
-    //   .pipe(take(1))
-    //   .subscribe((user) => {
-    //     this.currentUser = user.username;
-    //   });
+    this.userService
+      .getUserProfile(this.username)
+      .pipe(take(1))
+      .subscribe((userProfile) => {
+        if (userProfile) this.userProfile = userProfile;
+        else
+          this.userProfile = {
+            username: '',
+            name: '',
+            surname: '',
+            about: ''
+          };
+      });
   }
 
   changeAnnouncementAvailability(id: number, availability: boolean) {
-    console.log('dziala, ', id, ' !availability ', !availability);
     this.userService
       .changeAnnouncementAvailability(id, !availability)
-      .pipe(take(1))
-      .subscribe((res) => {
-        console.log(res);
+      .pipe(
+        take(1),
+        switchMap(() => this.userService.getAnnouncementsForUser(this.username))
+      )
+      .subscribe((userAnnouncements) => {
+        this.userAnnouncements = userAnnouncements;
       });
   }
 }

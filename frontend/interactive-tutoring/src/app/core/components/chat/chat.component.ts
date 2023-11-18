@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Observable, concat } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { MessagesContainerComponent } from './messages-container/messages-container.component';

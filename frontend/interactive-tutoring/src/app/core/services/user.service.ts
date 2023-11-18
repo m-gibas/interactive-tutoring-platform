@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { LoginUser, User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 import { Announcement } from '../models/announcement.model';
+import { UserProfile } from '../models/user-profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,8 @@ export class UserService {
     );
   }
 
+  // Announcements
+
   public getAnnouncements(): Observable<Announcement[]> {
     return this.http.get<Announcement[]>(
       `${this.apiUrl}/user/get-announcements`
@@ -87,6 +90,21 @@ export class UserService {
     return this.http.post<Announcement>(
       `${this.apiUrl}/user/add-announcement`,
       announcement
+    );
+  }
+
+  // User Profiles
+
+  public getUserProfile(username: string): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/user/get-user-profile`, {
+      params: { username }
+    });
+  }
+
+  public updateUserProfile(userProfile: UserProfile): Observable<UserProfile> {
+    return this.http.put<UserProfile>(
+      `${this.apiUrl}/user/update-profile`,
+      userProfile
     );
   }
 }

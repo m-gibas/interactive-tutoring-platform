@@ -2,7 +2,8 @@ app-user-profile {
   .container {
     position: fixed;
     width: 50vw;
-    top: 50%;
+    height: 80vh;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
@@ -10,24 +11,71 @@ app-user-profile {
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
 
-    .availability-button {
-      width: 90px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      padding: 10px 12px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background-color 0.3s;
+    &__announcements {
+      height: 50%;
+    }
+  }
 
-      &:hover {
-        background-color: #45a049;
-      }
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .availability-button {
+    width: 90px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+
+  .edit-profile-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #4caf50;
+    padding: 10px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+
+  .user-profile-section {
+    border: 1px solid #e1e1e1;
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    gap: 0.35rem;
+
+    &__label {
+      font-weight: bold;
+    }
+
+    &__value {
+      max-height: 120px;
+
+      overflow: auto;
     }
   }
 }
