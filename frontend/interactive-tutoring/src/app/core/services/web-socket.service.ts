@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import * as io from 'socket.io-client';
-import { Message } from '../models/message.model';
+import { Message, UnreadMessage } from '../models/message.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -51,6 +51,15 @@ export class SocketService {
     return new Observable<Message>((observer) => {
       this.socket.on('get_message', (res: Message) => {
         console.log('New message received:', res);
+        observer.next(res);
+      });
+    });
+  }
+
+  onNewUnreadMessage(): Observable<Message> {
+    return new Observable<Message>((observer) => {
+      this.socket.on('unread_messages', (res: Message) => {
+        console.log('New unread message received:', res.secondUserUsername);
         observer.next(res);
       });
     });

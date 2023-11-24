@@ -9,8 +9,10 @@ import { AnnouncementsComponent } from './core/components/announcements/announce
 import { AddAnnouncementComponent } from './core/components/announcements/add-announcement/add-announcement.component';
 import { UserProfileComponent } from './core/components/user-profile/user-profile.component';
 import { EditUserProfileComponent } from './core/components/edit-user-profile/edit-user-profile.component';
+import { DescriptionComponent } from './core/components/main-page/description/description.component';
 
 const routes: Routes = [
+  { path: '', component: DescriptionComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'users', component: UsersComponent },
   { path: 'user/:username', component: UserProfileComponent },

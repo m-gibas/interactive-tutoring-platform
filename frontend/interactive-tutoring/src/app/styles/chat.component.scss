@@ -18,6 +18,11 @@ app-chat {
   }
 
   .users-container {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
     input[type='radio'] {
       appearance: none;
       -webkit-appearance: none;
@@ -32,10 +37,9 @@ app-chat {
       margin-bottom: 0.5rem;
     }
 
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+    &__with_unread_messages {
+      font-weight: 600;
+    }
   }
 
   .chat-container {

@@ -5,8 +5,10 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.service.interactivetutoring.model.Message;
+import com.service.interactivetutoring.service.MessageService;
 import com.service.interactivetutoring.service.SocketIOService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -15,10 +17,13 @@ public class SocketIOController {
 
     private final SocketIOServer  server;
     private final SocketIOService socketService;
+    @Autowired
+    private final MessageService messageService;
 
-    public SocketIOController(SocketIOServer server, SocketIOService socketService) {
+    public SocketIOController(SocketIOServer server, SocketIOService socketService, MessageService messageService) {
         this.server = server;
         this.socketService = socketService;
+        this.messageService = messageService;
         server.addConnectListener(onConnected());
         server.addDisconnectListener(onDisconnected());
         server.addEventListener("send_message", Message.class, onChatReceived());
@@ -33,6 +38,9 @@ public class SocketIOController {
                     data.getRoom(),
                     "get_message",
                     senderClient, data);
+
+//            messageService.markMessagesAsRead(data.getSecondUserUsername());
+            socketService.sendUnreadMessagesNotification(data);
         };
     }
 
