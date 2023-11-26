@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { Observable, switchMap, take } from 'rxjs';
+import { Component, OnInit, inject } from '@angular/core';
+import { Observable, switchMap, take, zip } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { MessagesContainerComponent } from './messages-container/messages-container.component';
@@ -25,12 +25,12 @@ export class ChatComponent implements OnInit {
   private userService = inject(UserService);
   private chatService = inject(ChatService);
   private activeRoute = inject(ActivatedRoute);
-  private cdr = inject(ChangeDetectorRef);
 
   users$!: Observable<User[]>;
   recentChatters$!: Observable<string[]>;
 
   orderedChatters$!: Observable<any>;
+  allChatters!: User[];
   orderedChatters!: any;
 
   selectedUsername = '';
@@ -38,100 +38,46 @@ export class ChatComponent implements OnInit {
   unreadChats = [''];
 
   ngOnInit(): void {
-    // this.users$ = this.userService.getUsers();
-
-    // // this.userService
-    // //   .getCurrentUsername()
-    // //   .pipe(take(1))
-    // //   .subscribe((user) => {
-    // //     this.currentUser = user.username;
-    // //   });
-
-    // this.activeRoute.queryParams.subscribe((queryParams) => {
-    //   console.log('queryParams chat', queryParams);
-    //   this.currentUser = queryParams['currentUser'];
-
-    //   this.chatService
-    //     .getUnreadMessages(this.currentUser)
-    //     .subscribe((unreadMessages) => {
-    //       console.log('nieprzeczytane wiadomosci: ', unreadMessages);
-    //       this.unreadChats = [];
-
-    //       unreadMessages.forEach((message) => {
-    //         this.unreadChats.push(message.message.firstUserUsername);
-    //       });
-
-    //       // this.cdr.detectChanges();
-
-    //       console.log('this.unreadChats ', this.unreadChats);
-
-    //       // console.log(
-    //       //   'some: ',
-    //       //   this.unreadChats.some((user) => user === 'maks1')
-    //       // );
-    //       console.log(
-    //         'unread chats includes: ',
-    //         this.unreadChats.includes('maks2')
-    //       );
-    //     });
-
-    //   this.recentChatters$ = this.chatService.getRecentChatters(
-    //     this.currentUser
-    //   );
-
-    //   this.recentChatters$.subscribe((res) => {
-    //     this.orderedChatters = res;
-    //   });
-
-    //   // this.users$.subscribe((res) => {
-    //   //   res.forEach((item) => this.orderedChatters.push(item.username));
-
-    //   //   console.log('this.orderedChatters', this.orderedChatters);
-    //   // });
-    //   this.users$.subscribe((res) => {
-    //     res.forEach((item) => {
-    //       const username = item.username;
-    //       // Check if the username is not already in orderedChatters
-    //       if (!this.orderedChatters.includes(username)) {
-    //         this.orderedChatters.push(username);
-    //       }
-    //     });
-
-    //     console.log('this.orderedChatters', this.orderedChatters);
-    //   });
-    // });
-    this.activeRoute.queryParams.subscribe((queryParams) => {
-      console.log('queryParams chat', queryParams);
-      this.currentUser = queryParams['currentUser'];
-      this.getData();
-    });
+    // to chyba działa, ale jesli dobrze widze to to recentChatters cos sie zepsulo
+    // albo może lepiej wyczyścić bazę i od nowa dać dane do wiadomości, bo może coś sie zmieniło i źle sortuje te stare
+    this.orderedObservables();
   }
 
-  getData() {
-    this.chatService
-      .getRecentChatters(this.currentUser)
+  orderedObservables(): void {
+    // zip(this.userService.getUsers(), this.activeRoute.queryParams)
+    zip(
+      this.userService.getUsers().pipe(take(1)),
+      this.activeRoute.queryParams.pipe(take(1))
+    )
       .pipe(
         switchMap((res) => {
-          this.orderedChatters = res;
-          return this.userService.getUsers();
+          this.allChatters = res[0];
+          this.currentUser = res[1]['currentUser'];
+          // return zip(
+          //   this.chatService.getRecentChatters(this.currentUser),
+          //   this.chatService.getUnreadMessages(this.currentUser)
+          // );
+          return zip(
+            this.chatService.getRecentChatters(this.currentUser).pipe(take(1)),
+            this.chatService.getUnreadMessages(this.currentUser).pipe(take(1))
+          );
         })
       )
       .subscribe((res) => {
-        res.forEach((item) => {
+        console.log('recet chatters: ', res[0]);
+
+        this.orderedChatters = res[0];
+
+        this.allChatters.forEach((item) => {
           const username = item.username;
           // Check if the username is not already in orderedChatters
           if (!this.orderedChatters.includes(username)) {
             this.orderedChatters.push(username);
           }
         });
-      });
 
-    this.chatService
-      .getUnreadMessages(this.currentUser)
-      .subscribe((unreadMessages) => {
         this.unreadChats = [];
-
-        unreadMessages.forEach((message) => {
+        res[1].forEach((message) => {
           this.unreadChats.push(message.message.firstUserUsername);
         });
       });
@@ -145,7 +91,7 @@ export class ChatComponent implements OnInit {
       )
       // .markMessagesAsRead(this.currentUser)
       .pipe(take(1))
-      .subscribe(() => this.getData());
+      .subscribe(() => this.orderedObservables());
   }
 
   private generateUniqueRoomName(

@@ -1,28 +1,6 @@
 <div class="chat-container">
   <div class="users-container">
     <h3>Choose who to chat:</h3>
-    <!-- <div *ngFor="let user of users$ | async">
-      <ng-container *ngIf="user.username !== currentUser">
-        <input
-          id="chat-with-{{ user.username }}"
-          [(ngModel)]="selectedUsername"
-          type="radio"
-          [value]="user.username"
-        />
-        <label for="chat-with-{{ user.username }}">
-          <i
-            class="bi"
-            [ngClass]="
-              selectedUsername === user.username
-                ? 'bi-person-fill'
-                : 'bi-person'
-            "
-          >
-          </i>
-          {{ user.username }}
-        </label>
-      </ng-container>
-    </div> -->
     <div *ngFor="let username of orderedChatters">
       <ng-container *ngIf="username !== currentUser">
         <input
