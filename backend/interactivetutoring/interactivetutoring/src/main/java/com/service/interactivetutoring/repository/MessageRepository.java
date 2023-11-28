@@ -28,14 +28,16 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
 
     @Query(value = "SELECT DISTINCT username " +
-            "FROM ( " +
-            "    SELECT first_user_username AS username, date " +
-            "    FROM message " +
-            "    WHERE second_user_username = :firstUserUsername " +
-            "    UNION " +
-            "    SELECT second_user_username AS username, date " +
-            "    FROM message " +
-            "    WHERE first_user_username = :firstUserUsername " +
+            "FROM (" +
+            "(SELECT first_user_username AS username, date " +
+            "FROM message " +
+            "WHERE second_user_username = :firstUserUsername " +
+            "        ORDER BY date DESC) " +
+            "UNION ALL " +
+            "SELECT second_user_username AS username, date " +
+            "FROM message " +
+            "WHERE first_user_username = :firstUserUsername " +
+            "        ORDER BY date DESC " +
             ") AS merged_usernames " +
             "ORDER BY date DESC;",
             nativeQuery = true)

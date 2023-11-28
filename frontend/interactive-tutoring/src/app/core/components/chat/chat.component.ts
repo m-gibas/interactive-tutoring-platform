@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf, AsyncPipe, NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
+import { SocketService } from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +26,7 @@ export class ChatComponent implements OnInit {
   private userService = inject(UserService);
   private chatService = inject(ChatService);
   private activeRoute = inject(ActivatedRoute);
+  private socketService = inject(SocketService);
 
   users$!: Observable<User[]>;
   recentChatters$!: Observable<string[]>;
@@ -36,11 +38,16 @@ export class ChatComponent implements OnInit {
   selectedUsername = '';
   currentUser = '';
   unreadChats = [''];
+  recentChatRoom = '';
 
   ngOnInit(): void {
-    // to chyba działa, ale jesli dobrze widze to to recentChatters cos sie zepsulo
-    // albo może lepiej wyczyścić bazę i od nowa dać dane do wiadomości, bo może coś sie zmieniło i źle sortuje te stare
     this.orderedObservables();
+
+    this.socketService.connected('global');
+
+    this.socketService.onNewUnreadMessage().subscribe(() => {
+      this.orderedObservables();
+    });
   }
 
   orderedObservables(): void {
@@ -84,14 +91,25 @@ export class ChatComponent implements OnInit {
   }
 
   markMessagesAsRead() {
-    console.log('markMessagesAsRead ', this.selectedUsername);
+    // console.log('markMessagesAsRead ', this.selectedUsername);
+    if (this.recentChatRoom === '')
+      this.recentChatRoom = this.generateUniqueRoomName(
+        this.currentUser,
+        this.selectedUsername
+      );
     this.chatService
-      .markMessagesAsRead(
-        this.generateUniqueRoomName(this.currentUser, this.selectedUsername)
-      )
-      // .markMessagesAsRead(this.currentUser)
+      .markMessagesAsRead(this.recentChatRoom)
       .pipe(take(1))
       .subscribe(() => this.orderedObservables());
+
+    this.recentChatRoom = this.generateUniqueRoomName(
+      this.currentUser,
+      this.selectedUsername
+    );
+    this.chatService
+      .markMessagesAsRead(this.recentChatRoom)
+      .pipe(take(1))
+      .subscribe();
   }
 
   private generateUniqueRoomName(
