@@ -61,7 +61,7 @@ export class MessagesContainerComponent
   });
 
   ngOnInit(): void {
-    this.connect();
+    // this.connect();
 
     this.subscriptions$.add(
       this.setMessagesObservable().subscribe((res) => {
@@ -80,9 +80,13 @@ export class MessagesContainerComponent
 
   ngOnDestroy(): void {
     this.subscriptions$.unsubscribe();
+    this.disconnect();
   }
 
   ngOnChanges(): void {
+    // this.disconnect();
+    this.connect();
+
     this.subscriptions$.add(
       this.setMessagesObservable().subscribe((res) => {
         this.messages = [...res];
@@ -103,7 +107,6 @@ export class MessagesContainerComponent
   }
 
   sendMessage(): void {
-    console.log(this.newMessageForm.value.message);
     const newMessage: Message = {
       firstUserUsername: this.firstUsername,
       secondUserUsername: this.secondUsername,
@@ -114,13 +117,13 @@ export class MessagesContainerComponent
     this.newMessageForm.reset();
 
     this.chatService.addMessage(newMessage).subscribe({
-      next: () => {},
+      next: () => {
+        this.socketService.sendMessage({ ...newMessage });
+      },
       error: (err) => {
         alert(err.message);
       }
     });
-
-    this.socketService.sendMessage({ ...newMessage });
   }
 
   connect() {
