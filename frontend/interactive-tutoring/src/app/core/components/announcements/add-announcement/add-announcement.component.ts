@@ -25,7 +25,7 @@ export class AddAnnouncementComponent implements OnInit {
   announcementForm = this.fb.nonNullable.group({
     subject: ['', Validators.required],
     text: ['', Validators.required],
-    price: [0, [Validators.required, Validators.min(0)]]
+    price: [0, [Validators.min(0)]]
   });
 
   ngOnInit(): void {
