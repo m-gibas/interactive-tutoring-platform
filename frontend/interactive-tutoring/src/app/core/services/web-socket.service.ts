@@ -36,8 +36,6 @@ export class SocketService {
   }
 
   sendMessage(message: Message) {
-    console.log('WEBSOCKETIO', message);
-
     this.socket.emit('send_message', message, (ack: any) => {
       if (ack instanceof Error) {
         console.error('Error sending message:', ack);
