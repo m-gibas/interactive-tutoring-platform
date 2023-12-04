@@ -1,6 +1,7 @@
 package com.service.interactivetutoring;
 
 import com.service.interactivetutoring.model.Message;
+import com.service.interactivetutoring.model.UnreadMessage;
 import com.service.interactivetutoring.model.User;
 import com.service.interactivetutoring.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class MessageController {
 //        return new ResponseEntity<>(allMessages, HttpStatus.OK);
 //    }
 
- @GetMapping("/all-between-users")
+    @GetMapping("/all-between-users")
     public ResponseEntity<List<Message>> findAllMessagesBetweenUsers(@RequestParam String firstUsername, @RequestParam String secondUsername) {
         List<Message> allMessages = messageService.findAllMessagesBetweenUsers(firstUsername, secondUsername);
         return new ResponseEntity<>(allMessages, HttpStatus.OK);
@@ -53,10 +54,25 @@ public class MessageController {
         LocalDateTime now = LocalDateTime.now();
         Timestamp timestamp = Timestamp.valueOf(now);
         message.setDate(timestamp);
-        System.out.println("add message");
+        System.out.println("add message " + message);
         Message addedMessage = messageService.addMessage(message);
+
+        messageService.addUnreadMessage(message.getSecondUserUsername(), message.getRoom(), addedMessage);
         return new ResponseEntity<>(addedMessage, HttpStatus.OK);
     }
+
+    @GetMapping("/unread-messages")
+    public ResponseEntity<List<UnreadMessage>> getUnreadMessages(@RequestParam String username) {
+        List<UnreadMessage> unreadMessages = messageService.getUnreadMessages(username);
+        return new ResponseEntity<>(unreadMessages, HttpStatus.OK);
+    }
+
+     @GetMapping("/mark-messages-as-read")
+    public ResponseEntity<?> markMessagesAsRead(@RequestParam String room) {
+         messageService.markMessagesAsRead(room);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 }

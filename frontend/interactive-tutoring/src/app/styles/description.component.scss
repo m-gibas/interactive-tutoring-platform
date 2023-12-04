@@ -1,0 +1,66 @@
+.app-description-container {
+  position: fixed;
+  width: 50vw;
+  height: 80vh;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .user-profile-section {
+    height: 70%;
+    border: 1px solid #e1e1e1;
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 2.35rem;
+    text-align: center;
+
+    p {
+      font-size: 1.2rem;
+
+      .bi-emoji-smile-fill {
+        color: #87a6c3;
+      }
+    }
+
+    a {
+      padding: 0 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: #000;
+      letter-spacing: 0.05rem;
+      transition:
+        color 0.3s ease-in-out,
+        letter-spacing 0.4s ease-in-out;
+      white-space: nowrap;
+    }
+
+    a:hover {
+      color: rgba(0, 0, 0, 0.7);
+      letter-spacing: 0.07rem;
+    }
+  }
+}

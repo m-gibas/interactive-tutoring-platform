@@ -21,7 +21,6 @@ public class Message {
     private String secondUserUsername;
     private String message;
     private String room;
-//    Date zaimportowane z java.sql.Date - do sprawdzenia, czy na pewno dobrze
     private Timestamp date;
 
     public Message() {

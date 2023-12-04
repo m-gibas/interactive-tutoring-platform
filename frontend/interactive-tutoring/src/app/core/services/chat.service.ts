@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Message } from '../models/message.model';
+import { Message, UnreadMessage } from '../models/message.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -41,5 +41,22 @@ export class ChatService {
     console.log('service', message);
 
     return this.http.post<Message>(`${this.apiUrl}/message/add`, message);
+  }
+
+  // Unread Messages
+
+  getUnreadMessages(username: string): Observable<UnreadMessage[]> {
+    return this.http.get<UnreadMessage[]>(
+      `${this.apiUrl}/message/unread-messages`,
+      {
+        params: { username }
+      }
+    );
+  }
+
+  markMessagesAsRead(room: string): Observable<void> {
+    return this.http.get<void>(`${this.apiUrl}/message/mark-messages-as-read`, {
+      params: { room }
+    });
   }
 }

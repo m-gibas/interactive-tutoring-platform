@@ -5,3 +5,9 @@ export interface Message {
   room?: string;
   date?: string;
 }
+
+export interface UnreadMessage {
+  id: number;
+  username: string;
+  message: Message;
+}
