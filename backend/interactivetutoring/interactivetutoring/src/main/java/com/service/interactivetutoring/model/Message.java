@@ -26,6 +26,13 @@ public class Message {
     public Message() {
     }
 
+    public Message(String firstUserUsername, String secondUserUsername, String message, String room) {
+        this.firstUserUsername = firstUserUsername;
+        this.secondUserUsername = secondUserUsername;
+        this.message = message;
+        this.room = room;
+    }
+
     public Long getId() {
         return id;
     }
