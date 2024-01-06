@@ -61,16 +61,12 @@ public class MessageService {
     }
 
     public void markMessagesAsRead(String room) {
-        // Znajdź nieprzeczytane wiadomości dla danego użytkownika
+        // Find unread messages for certain user
         List<UnreadMessage> unreadMessages = unreadMessageRepository.findAllByRoom(room);
 
-        // Oznacz jako przeczytane i usuń z tabeli
+        // Mark message as read and delete from table
         for (UnreadMessage unreadMessage : unreadMessages) {
             unreadMessageRepository.delete(unreadMessage);
         }
-
-        // Po oznaczeniu wiadomości jako przeczytane, wysyłamy powiadomienie przez WebSocket
-//        to chyba niepotrzebne, bo wysyła wiadomość jakby do użytkownika co to czyta?
-//        socketIOService.sendUnreadMessagesNotification(username);
     }
 }

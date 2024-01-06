@@ -140,11 +140,6 @@ export class AnnouncementsComponent implements OnInit {
   }
 
   onDateChange(e: any) {
-    // console.log('e.value', e.value);
-    // console.log(
-    //   'this.datePipe.transform',
-    //   this.datePipe.transform(e.value, 'd.MM.yyyy')
-    // );
     this.dateFilterSubject.next(
       this.datePipe.transform(e.value, 'shortDate') || ''
     );

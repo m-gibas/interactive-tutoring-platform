@@ -30,10 +30,6 @@ public class UserService {
     }
 
     public User addUser(User user) {
-//        Set<ConstraintViolation<User>> violations = validatorFactory.getValidator().validate(user);
-//        if(!violations.isEmpty()) {
-//            throw new ValidationException(violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining()));
-//        }
         if (userRepository.findUserByUsername(user.getUsername()) != null) {
             throw new ValueTakenException("Username is already taken");
         }
@@ -48,7 +44,6 @@ public class UserService {
     public User findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
-//  returnUsers?
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
@@ -89,7 +84,6 @@ public class UserService {
     }
 
     public UserProfile updateUserProfile(UserProfile userProfile) {
-//        return userProfileRepository.save(userProfile);
         Optional<UserProfile> existingProfileOptional = Optional.ofNullable(userProfileRepository.findByUsername(userProfile.getUsername()));
 
         if (existingProfileOptional.isPresent()) {

@@ -27,14 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-//@Validated
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private final UserService userService;
 
-//    pytanie czy to i initBinder potrzebne?
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public void initBinder(WebDataBinder webDataBinder) {
@@ -83,12 +81,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // poprawić logowanie do systemu - aktualnie da się tylko jeden raz i się zawiesza (w sumie to nie wiem kiedy to przestaje działać)
-//    do tego dodać wyświetlanie błędów na froncie i poprawić komunikaty i warunki, dodać np regexa czy coś - jakbym dodał imię i nazwisko, to żeby tylko można było litery pisać
-//     i dodać też obsługę wylogowania (w apce)
-
-//    mogę pousuwac nieużywane metody też
-    //    dodatkowo pom.xml mogę posprzątać trochę z dependencji np.: mvn dependency:analyze -DignoreNonCompile
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginUser loginUser, HttpSession session) {
@@ -124,7 +116,6 @@ public class UserController {
 
         if (username == null) {
             new ResponseEntity<>(null, HttpStatus.OK);
-//            return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(mapper.writeValueAsString(usernameObject), HttpStatus.OK);
     }
@@ -154,7 +145,6 @@ public class UserController {
     }
 
     @PatchMapping("/change-announcement-availability")
-//    public ResponseEntity<?> changeAnnouncementAvailability(@RequestParam Long id, @RequestParam boolean newAvailability) {
     public ResponseEntity<?> changeAnnouncementAvailability(@RequestBody Map<String, Object> payload) {
         Long id = ((Number) payload.get("id")).longValue();
         boolean newAvailability = (Boolean) payload.get("newAvailability");

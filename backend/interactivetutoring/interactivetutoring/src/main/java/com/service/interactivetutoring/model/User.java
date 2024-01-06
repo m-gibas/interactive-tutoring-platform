@@ -25,18 +25,8 @@ public class User implements Serializable {
     @Length(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Announcement> announcements;
-
     public User() {
     }
-
-//    public User(Long id, String username, String email, String password) {
-//        this.id = id;
-//        this.username = username;
-//        this.email = email;
-//        this.password = password;
-//    }
 
     public Long getId() {
         return id;

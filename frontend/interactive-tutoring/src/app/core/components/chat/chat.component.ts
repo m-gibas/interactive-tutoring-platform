@@ -51,7 +51,6 @@ export class ChatComponent implements OnInit {
   }
 
   orderedObservables(): void {
-    // zip(this.userService.getUsers(), this.activeRoute.queryParams)
     zip(
       this.userService.getUsers().pipe(take(1)),
       this.activeRoute.queryParams.pipe(take(1))
@@ -60,10 +59,6 @@ export class ChatComponent implements OnInit {
         switchMap((res) => {
           this.allChatters = res[0];
           this.currentUser = res[1]['currentUser'];
-          // return zip(
-          //   this.chatService.getRecentChatters(this.currentUser),
-          //   this.chatService.getUnreadMessages(this.currentUser)
-          // );
           return zip(
             this.chatService.getRecentChatters(this.currentUser).pipe(take(1)),
             this.chatService.getUnreadMessages(this.currentUser).pipe(take(1))
@@ -91,7 +86,6 @@ export class ChatComponent implements OnInit {
   }
 
   markMessagesAsRead() {
-    // console.log('markMessagesAsRead ', this.selectedUsername);
     if (this.recentChatRoom === '')
       this.recentChatRoom = this.generateUniqueRoomName(
         this.currentUser,

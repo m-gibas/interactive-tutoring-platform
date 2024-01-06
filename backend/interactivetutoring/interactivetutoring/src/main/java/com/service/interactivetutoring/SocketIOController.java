@@ -39,7 +39,6 @@ public class SocketIOController {
                     "get_message",
                     senderClient, data);
 
-//            messageService.markMessagesAsRead(data.getSecondUserUsername());
             socketService.sendUnreadMessagesNotification(data);
         };
     }

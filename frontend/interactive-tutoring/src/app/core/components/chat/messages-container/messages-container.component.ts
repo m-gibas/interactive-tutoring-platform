@@ -61,8 +61,6 @@ export class MessagesContainerComponent
   });
 
   ngOnInit(): void {
-    // this.connect();
-
     this.subscriptions$.add(
       this.setMessagesObservable().subscribe((res) => {
         this.messages = [...res];
@@ -84,7 +82,6 @@ export class MessagesContainerComponent
   }
 
   ngOnChanges(): void {
-    // this.disconnect();
     this.connect();
 
     this.subscriptions$.add(

@@ -17,11 +17,6 @@ public class Announcement {
     @Column(nullable = false, updatable = false)
     private Long id;
 
-//    @JsonBackReference
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//private User user;
-
     @Column(nullable = false)
     private String username;
 
