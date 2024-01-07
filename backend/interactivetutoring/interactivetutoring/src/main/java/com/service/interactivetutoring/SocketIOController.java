@@ -30,7 +30,7 @@ public class SocketIOController {
     }
 
 
-    private DataListener<Message> onChatReceived() {
+    public DataListener<Message> onChatReceived() {
         System.out.println("onChatReceived");
         return (senderClient, data, ackSender) -> {
             log.info(data.toString());
@@ -44,7 +44,7 @@ public class SocketIOController {
     }
 
 
-    private ConnectListener onConnected() {
+    public ConnectListener onConnected() {
         return (client) -> {
             System.out.println("client data: {}" + client.getHandshakeData().getSingleUrlParam("room"));
             String room = client.getHandshakeData().getSingleUrlParam("room");
@@ -54,7 +54,7 @@ public class SocketIOController {
 
     }
 
-    private DisconnectListener onDisconnected() {
+    public DisconnectListener onDisconnected() {
         return client -> {
             log.info("Client[{}] - Disconnected from socket", client.getSessionId().toString());
         };

@@ -40,6 +40,12 @@ public class UnreadMessage {
         return room;
     }
 
+    public UnreadMessage(String username, String room, Message message) {
+        this.username = username;
+        this.room = room;
+        this.message = message;
+    }
+
     public void setRoom(String room) {
         this.room = room;
     }
