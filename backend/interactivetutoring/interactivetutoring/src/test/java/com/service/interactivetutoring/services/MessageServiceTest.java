@@ -54,11 +54,6 @@ public class MessageServiceTest {
     }
 
     @Test
-    public void testFindAllMessagesByUsername() {
-        // TODO: Implement test case
-    }
-
-    @Test
     public void testFindAllMessagesBetweenUsers() {
         // Przygotowanie danych testowych
         String firstUsername = "user1";

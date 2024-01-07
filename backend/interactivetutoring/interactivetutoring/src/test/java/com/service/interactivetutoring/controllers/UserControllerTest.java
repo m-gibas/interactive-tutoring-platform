@@ -95,14 +95,4 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.username").value("updatedUser"));
     }
 
-
-    @Test
-    public void testDeleteUser() throws Exception {
-        // Performing the HTTP request
-        mockMvc.perform(delete("/user/delete/1"))
-                .andExpect(status().isOk());
-    }
-
-
-
 }

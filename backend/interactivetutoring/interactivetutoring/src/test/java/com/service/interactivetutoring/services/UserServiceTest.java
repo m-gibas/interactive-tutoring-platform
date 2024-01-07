@@ -36,14 +36,14 @@ public class UserServiceTest {
 
     @Test
     public void testAddUser() {
-        // Creating a test user
+        // Tworzenie testowego użytkownika
         User user = new User();
         user.setUsername("newUser");
 
-        // Calling the service method
+        // Wywołanie metody z serwisu
         userService.addUser(user);
 
-        // Verifying that save method is called on the repository
+        // Sprawdzenie, że wywołana metoda wykonuje się w repozytorium
         verify(userRepository, times(1)).save(user);
     }
 
